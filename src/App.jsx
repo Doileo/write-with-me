@@ -1,10 +1,6 @@
-function App() {
-  return (
-    <div className="app">
-      <h1>WriteWithMe ✍️</h1>
-      <p>Your AI-powered writing buddy.</p>
-    </div>
-  );
-}
+import React from "react";
+import WritingScreen from "./components/WritingScreen/WritingScreen";
 
-export default App;
+export default function App() {
+  return <WritingScreen />;
+}
