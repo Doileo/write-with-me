@@ -1,0 +1,34 @@
+/* Block: writing-screen */
+.writing-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--space-md);
+  padding: var(--space-lg) var(--space-md);
+  min-height: 100vh;
+  background-color: var(--color-bg);
+}
+
+/* Block Element: heading */
+.writing-screen__heading {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Optional supporting text below heading */
+.writing-screen__subtext {
+  font-size: 1rem;
+  color: var(--color-muted);
+  max-width: 28ch;
+  text-align: center;
+}
+
+/* Block Element: editor wrapper */
+.writing-screen__editor {
+  width: 100%;
+  max-width: 680px;
+}

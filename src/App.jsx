@@ -1,6 +1,11 @@
-import React from "react";
 import WritingScreen from "./components/WritingScreen/WritingScreen";
 
-export default function App() {
-  return <WritingScreen />;
+function App() {
+  return (
+    <main>
+      <WritingScreen />
+    </main>
+  );
 }
+
+export default App;
