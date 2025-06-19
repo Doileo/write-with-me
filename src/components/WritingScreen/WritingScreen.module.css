@@ -1,34 +1,54 @@
-/* Block: writing-screen */
+/* === Block: writing-screen === */
 .writing-screen {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: var(--space-md);
-  padding: var(--space-lg) var(--space-md);
-  min-height: 100vh;
   background-color: var(--color-bg);
+  padding-block: var(--space-xl);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Block Element: heading */
+/* === Element: heading === */
 .writing-screen__heading {
-  font-size: 1.5rem;
-  font-weight: 600;
+  font-size: 2rem;
+  font-weight: 700;
   color: var(--color-text);
   text-align: center;
-  line-height: 1.4;
+  line-height: 1.3;
 }
 
-/* Optional supporting text below heading */
+/* === Element: subtext === */
 .writing-screen__subtext {
   font-size: 1rem;
   color: var(--color-muted);
-  max-width: 28ch;
   text-align: center;
+  max-width: 36ch;
+  margin-inline: auto;
 }
 
-/* Block Element: editor wrapper */
+/* === Element: editor wrapper === */
 .writing-screen__editor {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: var(--space-md);
+}
+
+/* === Element: styled textarea === */
+.editor__textarea {
   width: 100%;
-  max-width: 680px;
+  min-height: 60vh;
+  border: none;
+  resize: vertical;
+  background-color: transparent;
+  color: var(--color-text);
+  font-family: var(--font-family-serif);
+  font-size: 1.125rem;
+  line-height: 1.75;
+  outline: none;
+}
+
+.editor__textarea:focus {
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
 }
