@@ -1,27 +1,57 @@
 import React, { useState, useEffect } from "react";
 import styles from "./WritingScreen.module.css";
 
-const STORAGE_KEY = "writeWithMe-draft";
+const DRAFT_STORAGE_KEY = "writeWithMe-draft";
+const STORIES_STORAGE_KEY = "writeWithMe-stories";
 
 const WritingScreen = () => {
   const [text, setText] = useState("");
 
-  // Load saved draft from localStorage on component mount
+  // Load saved draft on mount
   useEffect(() => {
-    const savedText = localStorage.getItem(STORAGE_KEY);
-    if (savedText) {
-      setText(savedText);
-    }
+    const savedText = localStorage.getItem(DRAFT_STORAGE_KEY);
+    if (savedText) setText(savedText);
   }, []);
 
-  // Save text to localStorage with debounce
+  // Autosave draft with debounce
   useEffect(() => {
     const handler = setTimeout(() => {
-      localStorage.setItem(STORAGE_KEY, text);
-    }, 500); // save after 500ms of inactivity
+      localStorage.setItem(DRAFT_STORAGE_KEY, text);
+    }, 500);
 
     return () => clearTimeout(handler);
   }, [text]);
+
+  const saveStory = () => {
+    if (!text.trim()) {
+      alert("Cannot save an empty story. Please write something first.");
+      return;
+    }
+
+    const title = window.prompt(
+      "Enter a title for your story:",
+      "Untitled Story"
+    );
+    if (title === null) return; // user cancelled
+
+    const newStory = {
+      id: Date.now().toString(),
+      title: title.trim() || "Untitled Story",
+      content: text,
+      dateSaved: new Date().toISOString(),
+    };
+
+    const storedStories =
+      JSON.parse(localStorage.getItem(STORIES_STORAGE_KEY)) || [];
+    storedStories.push(newStory);
+    localStorage.setItem(STORIES_STORAGE_KEY, JSON.stringify(storedStories));
+
+    alert(`Story "${newStory.title}" saved successfully!`);
+
+    // Clear editor and draft storage after save
+    setText("");
+    localStorage.removeItem(DRAFT_STORAGE_KEY);
+  };
 
   return (
     <section className={styles["writing-screen"]}>
@@ -40,6 +70,14 @@ const WritingScreen = () => {
             onChange={(e) => setText(e.target.value)}
           />
         </div>
+
+        <button
+          className={styles["save-button"]}
+          type="button"
+          onClick={saveStory}
+        >
+          Save Story
+        </button>
       </div>
     </section>
   );
