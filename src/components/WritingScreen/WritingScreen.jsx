@@ -5,23 +5,33 @@ const DRAFT_STORAGE_KEY = "writeWithMe-draft";
 const STORIES_STORAGE_KEY = "writeWithMe-stories";
 
 const WritingScreen = () => {
+  // State to hold user’s writing input
   const [text, setText] = useState("");
 
-  // Load saved draft on mount
+  // State to give short feedback that the draft has been saved
+  const [isSaved, setIsSaved] = useState(false);
+
+  // On mount, restore any saved draft to avoid data loss or start fresh
   useEffect(() => {
     const savedText = localStorage.getItem(DRAFT_STORAGE_KEY);
     if (savedText) setText(savedText);
   }, []);
 
-  // Autosave draft with debounce
+  // Autosave the draft whenever the user types, but debounce it to reduce writes
   useEffect(() => {
     const handler = setTimeout(() => {
       localStorage.setItem(DRAFT_STORAGE_KEY, text);
+      setIsSaved(true); // inform the user it was saved
+
+      // hide the message after a short delay to keep the interface clean
+      const timeout = setTimeout(() => setIsSaved(false), 2000);
+      return () => clearTimeout(timeout);
     }, 500);
 
     return () => clearTimeout(handler);
   }, [text]);
 
+  // Manual save for completed stories, with optional title and storage
   const saveStory = () => {
     if (!text.trim()) {
       alert("Cannot save an empty story. Please write something first.");
@@ -48,7 +58,7 @@ const WritingScreen = () => {
 
     alert(`Story "${newStory.title}" saved successfully!`);
 
-    // Clear editor and draft storage after save
+    // Reset editor and clear draft after manual save
     setText("");
     localStorage.removeItem(DRAFT_STORAGE_KEY);
   };
@@ -70,6 +80,13 @@ const WritingScreen = () => {
             onChange={(e) => setText(e.target.value)}
           />
         </div>
+
+        {/* Feedback message appears briefly after autosave */}
+        {isSaved && (
+          <div className={styles["writing-screen__status"]}>
+            ✨ Draft saved automatically
+          </div>
+        )}
 
         <button
           className={styles["save-button"]}

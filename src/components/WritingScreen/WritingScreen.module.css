@@ -54,6 +54,16 @@
   box-shadow: 0 0 0 3px var(--color-focus-ring);
 }
 
+/* === Element: status message (after autosave) === */
+.writing-screen__status {
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--color-focus);
+  margin-top: var(--space-sm);
+  transition: opacity 0.3s ease;
+}
+
+/* === Element: save button === */
 .save-button {
   margin-top: var(--space-md);
   padding: 0.8rem 2.5rem;
