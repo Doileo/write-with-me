@@ -1,37 +1,37 @@
 import React, { useState, useEffect } from "react";
 import styles from "./WritingScreen.module.css";
+import SavedStories from "../SavedStories/SavedStories";
 
 const DRAFT_STORAGE_KEY = "writeWithMe-draft";
 const STORIES_STORAGE_KEY = "writeWithMe-stories";
 
 const WritingScreen = () => {
-  // State to hold user’s writing input
   const [text, setText] = useState("");
-
-  // State to give short feedback that the draft has been saved
   const [isSaved, setIsSaved] = useState(false);
+  const [stories, setStories] = useState([]); // New: hold all saved stories
 
-  // On mount, restore any saved draft to avoid data loss or start fresh
+  // Restore draft on mount
   useEffect(() => {
     const savedText = localStorage.getItem(DRAFT_STORAGE_KEY);
     if (savedText) setText(savedText);
+
+    // Load stories as well
+    const savedStories = localStorage.getItem(STORIES_STORAGE_KEY);
+    if (savedStories) setStories(JSON.parse(savedStories));
   }, []);
 
-  // Autosave the draft whenever the user types, but debounce it to reduce writes
+  // Autosave with debounce
   useEffect(() => {
     const handler = setTimeout(() => {
       localStorage.setItem(DRAFT_STORAGE_KEY, text);
-      setIsSaved(true); // inform the user it was saved
-
-      // hide the message after a short delay to keep the interface clean
+      setIsSaved(true);
       const timeout = setTimeout(() => setIsSaved(false), 2000);
       return () => clearTimeout(timeout);
     }, 500);
-
     return () => clearTimeout(handler);
   }, [text]);
 
-  // Manual save for completed stories, with optional title and storage
+  // Save story to localStorage and update UI
   const saveStory = () => {
     if (!text.trim()) {
       alert("Cannot save an empty story. Please write something first.");
@@ -42,7 +42,7 @@ const WritingScreen = () => {
       "Enter a title for your story:",
       "Untitled Story"
     );
-    if (title === null) return; // user cancelled
+    if (title === null) return;
 
     const newStory = {
       id: Date.now().toString(),
@@ -51,16 +51,25 @@ const WritingScreen = () => {
       dateSaved: new Date().toISOString(),
     };
 
-    const storedStories =
-      JSON.parse(localStorage.getItem(STORIES_STORAGE_KEY)) || [];
-    storedStories.push(newStory);
+    const storedStories = [...stories, newStory];
     localStorage.setItem(STORIES_STORAGE_KEY, JSON.stringify(storedStories));
+    setStories(storedStories); // Update stories state
 
     alert(`Story "${newStory.title}" saved successfully!`);
-
-    // Reset editor and clear draft after manual save
     setText("");
     localStorage.removeItem(DRAFT_STORAGE_KEY);
+  };
+
+  // Select a story to load into the editor
+  const handleSelectStory = (story) => {
+    setText(story.content);
+  };
+
+  // Delete a story from storage and UI
+  const handleDeleteStory = (id) => {
+    const filtered = stories.filter((s) => s.id !== id);
+    setStories(filtered);
+    localStorage.setItem(STORIES_STORAGE_KEY, JSON.stringify(filtered));
   };
 
   return (
@@ -81,7 +90,6 @@ const WritingScreen = () => {
           />
         </div>
 
-        {/* Feedback message appears briefly after autosave */}
         {isSaved && (
           <div className={styles["writing-screen__status"]}>
             ✨ Draft saved automatically
@@ -95,6 +103,13 @@ const WritingScreen = () => {
         >
           Save Story
         </button>
+
+        {/* Show saved stories */}
+        <SavedStories
+          stories={stories}
+          onSelect={handleSelectStory}
+          onDelete={handleDeleteStory}
+        />
       </div>
     </section>
   );
