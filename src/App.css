@@ -1,12 +1,16 @@
 /* === CSS Variables (root design tokens) === */
 :root {
-  --color-bg: #fefefe;
-  --color-surface: #fcfcfc;
+  --color-bg: #f2f2f2;
+  --color-surface: #ffffff;
   --color-border: #ddd;
   --color-text: #222;
   --color-muted: #666;
-  --color-focus: #7b6cf9;
-  --color-focus-ring: rgba(123, 108, 249, 0.15);
+  --color-primary: #46a694;
+  --color-accent: #a576a6;
+  --color-accent-soft: #b2a8bf;
+  --color-focus: #80bfb4;
+  --color-focus-ring: rgba(128, 191, 180, 0.25);
+  --color-delete: #e35a5a;
 
   --font-family-base: "Inter", system-ui, sans-serif;
   --font-family-serif: "Georgia", "Times New Roman", serif;

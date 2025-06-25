@@ -1,3 +1,4 @@
+/* === Saved Stories === */
 .saved-stories {
   margin-top: var(--space-xl);
 }
@@ -25,6 +26,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
 }
 
 .saved-stories__title {
@@ -47,7 +49,7 @@
 .saved-stories__continue {
   background: transparent;
   border: none;
-  color: var(--color-focus);
+  color: var(--color-primary);
   font-weight: 600;
   cursor: pointer;
   padding: 0.4rem 1rem;
@@ -55,7 +57,7 @@
 }
 
 .saved-stories__continue:hover {
-  color: black;
+  color: var(--color-text);
 }
 
 .saved-stories__delete {
