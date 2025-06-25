@@ -1,4 +1,5 @@
 import React from "react";
+import { Trash2 } from "lucide-react";
 import styles from "./SavedStories.module.css";
 
 const SavedStories = ({ stories, onSelect, onDelete }) => {
@@ -29,7 +30,7 @@ const SavedStories = ({ stories, onSelect, onDelete }) => {
                 aria-label={`Delete story ${story.title}`}
                 className={styles["saved-stories__delete"]}
               >
-                🗑
+                <Trash2 size={20} strokeWidth={1.8} />
               </button>
             </div>
           </li>

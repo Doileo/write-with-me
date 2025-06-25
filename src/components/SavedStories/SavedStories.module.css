@@ -61,12 +61,16 @@
 .saved-stories__delete {
   background: none;
   border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
+  padding: 0.5rem;
   color: var(--color-muted);
-  transition: color 0.2s ease;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s ease, color 0.2s ease;
 }
 
-.saved-stories__delete:hover {
-  color: red;
+.saved-stories__delete:hover,
+.saved-stories__delete:focus-visible {
+  color: var(--color-delete, #e35a5a);
+  border-bottom: 2px solid var(--color-delete, #e35a5a);
 }
