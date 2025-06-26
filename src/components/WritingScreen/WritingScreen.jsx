@@ -74,7 +74,7 @@ const WritingScreen = () => {
 
   return (
     <section className={styles["writing-screen"]}>
-      <div className="container">
+      <div className={styles["writing-screen__container"]}>
         <h1 className={styles["writing-screen__heading"]}>Write With Me</h1>
         <p className={styles["writing-screen__subtext"]}>
           A focused space for your thoughts, stories, and reflections.
@@ -83,7 +83,7 @@ const WritingScreen = () => {
         <div className={styles["writing-screen__editor"]}>
           <textarea
             className={styles["editor__textarea"]}
-            placeholder="Start writing your story here..."
+            placeholder="Write the first line of your idea..."
             aria-label="Writing editor"
             value={text}
             onChange={(e) => setText(e.target.value)}

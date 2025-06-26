@@ -24,9 +24,9 @@
   border-radius: var(--radius-md);
   padding: var(--space-md);
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
 }
 
 .saved-stories__title {
@@ -42,6 +42,7 @@
 
 .saved-stories__actions {
   display: flex;
+  justify-content: space-between;
   gap: var(--space-xs);
   align-items: center;
 }
@@ -52,7 +53,7 @@
   color: var(--color-primary);
   font-weight: 600;
   cursor: pointer;
-  padding: 0.4rem 1rem;
+  padding: 0.4rem 1rem 0.4rem 0;
   transition: color 0.2s ease;
 }
 
@@ -63,7 +64,7 @@
 .saved-stories__delete {
   background: none;
   border: none;
-  padding: 0.5rem;
+  padding-top: 1rem;
   color: var(--color-muted);
   font-weight: 500;
   cursor: pointer;

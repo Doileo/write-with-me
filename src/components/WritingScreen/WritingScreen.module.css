@@ -1,95 +1,108 @@
-/* === Block: writing-screen === */
+/* === writing-screen === */
 .writing-screen {
   background-color: var(--color-bg);
-  padding-block: var(--space-xl);
-  min-height: 100vh;
+  padding: var(--space-lg) var(--space-md);
+  min-height: 100dvh;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
-/* === Element: heading === */
+/* === heading and subtext === */
+.writing-screen__container {
+  display: grid;
+  gap: 1.25rem;
+}
+
 .writing-screen__heading {
   font-size: 2rem;
   font-weight: 700;
   color: var(--color-primary);
   text-align: center;
-  line-height: 1.3;
+  margin-bottom: var(--space-sm);
 }
 
-/* === Element: subtext === */
 .writing-screen__subtext {
   font-size: 1rem;
-  color: var(--color-accent-soft);
+  color: var(--color-text);
   text-align: center;
   max-width: 36ch;
-  margin-inline: auto;
+  margin: 0 auto var(--space-lg);
 }
 
-/* === Element: editor wrapper === */
+/* === editor wrapper === */
 .writing-screen__editor {
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   padding: var(--space-md);
-  margin: 2rem 0;
+  margin-bottom: var(--space-md);
 }
 
-/* === Element: styled textarea === */
 .editor__textarea {
   width: 100%;
-  min-height: 60vh;
+  min-height: 50vh;
   border: none;
-  resize: vertical;
   background-color: transparent;
   color: var(--color-text);
   font-family: var(--font-family-serif);
-  font-size: 1.125rem;
+  font-size: 1.1rem;
   line-height: 1.75;
+  resize: vertical;
   outline: none;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.editor__textarea::placeholder {
+  color: var(--color-muted);
+  font-style: italic;
 }
 
 .editor__textarea:focus {
   box-shadow: 0 0 0 3px var(--color-focus-ring);
 }
 
-/* === Element: status message (after autosave) === */
+/* === status message === */
 .writing-screen__status {
   text-align: center;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--color-focus);
-  margin-top: var(--space-sm);
-  transition: opacity 0.3s ease;
+  margin-bottom: var(--space-sm);
 }
 
-/* === Element: save button === */
+/* === save button === */
 .save-button {
-  margin-top: var(--space-md);
-  padding: 0.75rem 2.5rem;
+  position: sticky;
+  bottom: var(--space-sm);
+  z-index: 99;
+  margin: 0 auto var(--space-md);
+  display: block;
+  padding: 0.85rem 2rem;
   border-radius: var(--radius-md);
   background: var(--color-primary);
   color: var(--color-surface);
   font-family: var(--font-family-base);
-  font-weight: 700;
-  font-size: 1.125rem;
+  font-weight: 600;
+  font-size: 1.1rem;
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 6px rgba(70, 166, 148, 0.3),
-    inset 0 -3px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(107, 62, 117, 0.3),
+    /* subtle plum glow */ inset 0 -3px 5px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 
 .save-button:hover,
 .save-button:focus-visible {
-  box-shadow: 0 12px 20px rgba(70, 166, 148, 0.5),
-    inset 0 -3px 7px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 20px rgba(107, 62, 117, 0.45),
+    /* bolder plum shadow */ inset 0 -3px 7px rgba(0, 0, 0, 0.15);
   transform: translateY(-3px);
   outline: none;
 }
 
 .save-button:active {
-  box-shadow: 0 2px 6px rgba(70, 166, 148, 0.25),
+  box-shadow: 0 2px 6px rgba(107, 62, 117, 0.25),
     inset 0 -3px 5px rgba(0, 0, 0, 0.1);
   transform: translateY(0);
 }

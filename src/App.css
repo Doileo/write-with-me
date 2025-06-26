@@ -1,16 +1,17 @@
 /* === CSS Variables (root design tokens) === */
 :root {
-  --color-bg: #f2f2f2;
+  --color-bg: #f9f7fa;
   --color-surface: #ffffff;
-  --color-border: #ddd;
-  --color-text: #222;
-  --color-muted: #666;
-  --color-primary: #46a694;
-  --color-accent: #a576a6;
-  --color-accent-soft: #b2a8bf;
-  --color-focus: #80bfb4;
-  --color-focus-ring: rgba(128, 191, 180, 0.25);
-  --color-delete: #e35a5a;
+  --color-border: #e1d9e4;
+  --color-text: #201824;
+  --color-muted: #6b5e6e;
+
+  --color-primary: #6b3e75; /* Deep Plum */
+  --color-accent: #a576a6; /* Lavender accent */
+  --color-accent-soft: #c7b6cc; /* Dusty Lilac */
+  --color-focus: #9b6fa1; /* Soft Orchid */
+  --color-focus-ring: rgba(155, 111, 161, 0.25);
+  --color-delete: #d36d7a;
 
   --font-family-base: "Inter", system-ui, sans-serif;
   --font-family-serif: "Georgia", "Times New Roman", serif;
@@ -89,6 +90,7 @@ body {
   width: 100%;
   min-height: 60vh;
   border: none;
+  border-radius: 8px;
   font-family: var(--font-family-serif);
   font-size: 1rem;
   line-height: 1.75;
