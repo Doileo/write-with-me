@@ -1,6 +1,13 @@
 /* === Saved Stories === */
 .saved-stories {
-  margin-top: var(--space-xl);
+  margin-top: var(--space-md);
+}
+
+.saved-stories__empty {
+  color: var(--color-muted);
+  font-style: italic;
+  font-size: 0.95rem;
+  text-align: center;
 }
 
 .saved-stories__heading {
@@ -76,4 +83,27 @@
 .saved-stories__delete:focus-visible {
   color: var(--color-delete, #e35a5a);
   border-bottom: 2px solid var(--color-delete, #e35a5a);
+}
+
+@media screen and (min-width: 1024px) {
+  .saved-stories {
+    position: sticky;
+    top: 9rem;
+    align-self: start;
+    max-height: calc(100vh - 9rem - 2rem);
+    overflow-y: auto;
+    padding-right: 0.5rem;
+  }
+
+  .saved-stories__list {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+  }
+
+  .saved-stories__item:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+    transition: all 0.2s ease;
+  }
 }

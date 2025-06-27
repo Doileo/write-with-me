@@ -3,7 +3,15 @@ import { Trash2 } from "lucide-react";
 import styles from "./SavedStories.module.css";
 
 const SavedStories = ({ stories, onSelect, onDelete }) => {
-  if (!stories || stories.length === 0) return null;
+  if (!stories || stories.length === 0) {
+    return (
+      <section className={styles["saved-stories"]}>
+        <p className={styles["saved-stories__empty"]}>
+          No saved stories yet. Start writing and save to see them here!
+        </p>
+      </section>
+    );
+  }
 
   return (
     <section className={styles["saved-stories"]}>
