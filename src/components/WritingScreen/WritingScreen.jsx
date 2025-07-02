@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./WritingScreen.module.css";
 import SavedStories from "../SavedStories/SavedStories";
+import { getAISuggestion } from "../../api/openai";
 
 const DRAFT_STORAGE_KEY = "writeWithMe-draft";
 const STORIES_STORAGE_KEY = "writeWithMe-stories";
@@ -9,6 +10,10 @@ const WritingScreen = () => {
   const [text, setText] = useState("");
   const [isSaved, setIsSaved] = useState(false);
   const [stories, setStories] = useState([]);
+
+  const [suggestion, setSuggestion] = useState("");
+  const [loadingSuggestion, setLoadingSuggestion] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const savedText = localStorage.getItem(DRAFT_STORAGE_KEY);
@@ -66,6 +71,34 @@ const WritingScreen = () => {
     localStorage.setItem(STORIES_STORAGE_KEY, JSON.stringify(filtered));
   };
 
+  const handleSuggestClick = async () => {
+    if (!text.trim()) {
+      setError("Please write something before asking for a suggestion.");
+      return;
+    }
+
+    setLoadingSuggestion(true);
+    setError(null);
+    try {
+      const aiSuggestion = await getAISuggestion(text);
+      setSuggestion(aiSuggestion);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to get suggestion. Please try again.");
+    } finally {
+      setLoadingSuggestion(false);
+    }
+  };
+
+  const acceptSuggestion = () => {
+    setText((prev) => prev + (prev.endsWith(" ") ? "" : " ") + suggestion);
+    setSuggestion("");
+  };
+
+  const rejectSuggestion = () => {
+    setSuggestion("");
+  };
+
   return (
     <section className={styles["writing-screen"]}>
       <div className={styles["writing-screen__container"]}>
@@ -91,6 +124,51 @@ const WritingScreen = () => {
             />
           </div>
 
+          <button
+            className={styles["save-button"]}
+            type="button"
+            onClick={handleSuggestClick}
+            disabled={loadingSuggestion || !text.trim()}
+            style={{ marginTop: "1rem" }}
+          >
+            {loadingSuggestion ? "Suggesting..." : "Suggest next sentence"}
+          </button>
+
+          {error && (
+            <p
+              className={styles["writing-screen__error"]}
+              role="alert"
+              style={{ marginTop: "0.5rem", color: "red" }}
+            >
+              {error}
+            </p>
+          )}
+
+          {suggestion && (
+            <div
+              className={styles["writing-screen__suggestion-box"]}
+              style={{ marginTop: "1rem" }}
+            >
+              <p className={styles["writing-screen__suggestion-text"]}>
+                {suggestion}
+              </p>
+              <div className={styles["writing-screen__suggestion-actions"]}>
+                <button
+                  className={styles["writing-screen__suggestion-accept"]}
+                  onClick={acceptSuggestion}
+                >
+                  Accept
+                </button>
+                <button
+                  className={styles["writing-screen__suggestion-reject"]}
+                  onClick={rejectSuggestion}
+                >
+                  Reject
+                </button>
+              </div>
+            </div>
+          )}
+
           {isSaved && (
             <div
               className={styles["writing-screen__status"]}
@@ -105,6 +183,7 @@ const WritingScreen = () => {
             className={styles["save-button"]}
             type="button"
             onClick={saveStory}
+            style={{ marginTop: "1rem" }}
           >
             Save Story
           </button>
