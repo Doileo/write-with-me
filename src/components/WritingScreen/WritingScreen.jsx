@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./WritingScreen.module.css";
 import SavedStories from "../SavedStories/SavedStories";
 import { getAISuggestion } from "../../api/openai";
+import { Sparkles, CheckCircle, XCircle } from "lucide-react";
 
 const DRAFT_STORAGE_KEY = "writeWithMe-draft";
 const STORIES_STORAGE_KEY = "writeWithMe-stories";
@@ -125,12 +126,12 @@ const WritingScreen = () => {
           </div>
 
           <button
-            className={styles["save-button"]}
+            className={styles["writing-screen__suggest-button"]}
             type="button"
             onClick={handleSuggestClick}
             disabled={loadingSuggestion || !text.trim()}
-            style={{ marginTop: "1rem" }}
           >
+            <Sparkles className={styles["suggest-icon"]} size={18} />
             {loadingSuggestion ? "Suggesting..." : "Suggest next sentence"}
           </button>
 
@@ -157,12 +158,17 @@ const WritingScreen = () => {
                   className={styles["writing-screen__suggestion-accept"]}
                   onClick={acceptSuggestion}
                 >
+                  <CheckCircle
+                    className={styles["suggestion-icon"]}
+                    size={16}
+                  />
                   Accept
                 </button>
                 <button
                   className={styles["writing-screen__suggestion-reject"]}
                   onClick={rejectSuggestion}
                 >
+                  <XCircle className={styles["suggestion-icon"]} size={16} />
                   Reject
                 </button>
               </div>

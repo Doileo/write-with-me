@@ -38,6 +38,7 @@
   color: var(--color-text);
   text-align: center;
   max-width: 36ch;
+  margin: 0 auto;
 }
 
 .writing-screen__quote {
@@ -46,6 +47,7 @@
   font-style: italic;
   color: var(--color-muted);
   max-width: 50ch;
+  margin: 0 auto;
 }
 
 /* === editor wrapper === */
@@ -145,6 +147,90 @@
   transform: translateY(0);
 }
 
+/* === Suggestion Button === */
+.writing-screen__suggest-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(107, 62, 117, 0.2);
+  transition: background 0.2s ease, transform 0.15s ease;
+  margin-top: 1rem;
+
+  width: 100%;
+  max-width: 70ch;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.writing-screen__suggest-button:hover,
+.writing-screen__suggest-button:focus-visible {
+  background-color: var(--color-primary-dark, rebeccapurple);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.suggest-icon {
+  color: var(--color-surface);
+}
+
+/* === Suggestion Box === */
+.writing-screen__suggestion-box {
+  background-color: var(--color-surface);
+  border-left: 4px solid var(--color-primary);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  max-width: 70ch;
+}
+
+/* === Suggestion Text === */
+.writing-screen__suggestion-text {
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-text);
+}
+
+/* === Suggestion Action Buttons === */
+.writing-screen__suggestion-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.writing-screen__suggestion-accept,
+.writing-screen__suggestion-reject {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.95rem;
+  padding: 0.4rem 0.9rem;
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.writing-screen__suggestion-accept:hover,
+.writing-screen__suggestion-reject:hover {
+  background-color: var(--color-muted-bg, #f3eefc);
+  border-color: var(--color-muted);
+}
+
+.suggestion-icon {
+  color: var(--color-muted);
+}
+
 /* === Responsive === */
 @media screen and (min-width: 768px) {
   .writing-screen__container {
@@ -163,7 +249,8 @@
     font-size: 1.1rem;
   }
 
-  .save-button {
+  .save-button,
+  .writing-screen__suggest-button {
     font-size: 1.1rem;
     padding: 1rem 2.5rem;
   }
@@ -171,10 +258,10 @@
 
 @media screen and (min-width: 1024px) {
   .writing-screen__container {
-    grid-template-columns: 2fr 1fr;
+    position: relative;
+    grid-template-columns: 3fr 1.2fr;
     align-items: start;
     column-gap: 4rem;
-    border-left: none;
     max-width: 1120px;
   }
 
@@ -188,11 +275,6 @@
     left: 70%;
     top: 0;
     opacity: 0.2;
-  }
-
-  .writing-screen__container {
-    position: relative;
-    grid-template-columns: 3fr 1.2fr;
   }
 
   .writing-screen__heading,
@@ -218,5 +300,12 @@
     position: static;
     margin-left: 0;
     margin-top: var(--space-sm);
+  }
+
+  .writing-screen__suggest-button {
+    position: static;
+    margin-left: 0;
+    margin-right: 0;
+    width: 60%;
   }
 }
