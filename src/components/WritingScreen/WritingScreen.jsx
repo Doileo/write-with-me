@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./WritingScreen.module.css";
 import SavedStories from "../SavedStories/SavedStories";
 import { getAISuggestion } from "../../api/openai";
-import { Sparkles, CheckCircle, XCircle } from "lucide-react";
+import { Sparkles, CheckCircle, XCircle, Save } from "lucide-react";
 
 const DRAFT_STORAGE_KEY = "writeWithMe-draft";
 const STORIES_STORAGE_KEY = "writeWithMe-stories";
@@ -125,31 +125,35 @@ const WritingScreen = () => {
             />
           </div>
 
-          <button
-            className={styles["writing-screen__suggest-button"]}
-            type="button"
-            onClick={handleSuggestClick}
-            disabled={loadingSuggestion || !text.trim()}
-          >
-            <Sparkles className={styles["suggest-icon"]} size={18} />
-            {loadingSuggestion ? "Suggesting..." : "Suggest next sentence"}
-          </button>
+          <div className={styles["writing-screen__actions"]}>
+            <button
+              className={styles["writing-screen__suggest-button"]}
+              type="button"
+              onClick={handleSuggestClick}
+              disabled={loadingSuggestion || !text.trim()}
+            >
+              <Sparkles className={styles["suggest-icon"]} size={18} />
+              {loadingSuggestion ? "Suggesting..." : "Suggest next sentence"}
+            </button>
+
+            <button
+              className={styles["save-button"]}
+              type="button"
+              onClick={saveStory}
+            >
+              <Save className={styles["save-icon"]} size={18} />
+              Save Story
+            </button>
+          </div>
 
           {error && (
-            <p
-              className={styles["writing-screen__error"]}
-              role="alert"
-              style={{ marginTop: "0.5rem", color: "red" }}
-            >
+            <p className={styles["writing-screen__error"]} role="alert">
               {error}
             </p>
           )}
 
           {suggestion && (
-            <div
-              className={styles["writing-screen__suggestion-box"]}
-              style={{ marginTop: "1rem" }}
-            >
+            <div className={styles["writing-screen__suggestion-box"]}>
               <p className={styles["writing-screen__suggestion-text"]}>
                 {suggestion}
               </p>
@@ -184,15 +188,6 @@ const WritingScreen = () => {
               ✨ Draft saved automatically
             </div>
           )}
-
-          <button
-            className={styles["save-button"]}
-            type="button"
-            onClick={saveStory}
-            style={{ marginTop: "1rem" }}
-          >
-            Save Story
-          </button>
         </div>
 
         <SavedStories

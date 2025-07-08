@@ -112,13 +112,52 @@
   }
 }
 
-/* === save button === */
+/* === button group wrapper === */
+.writing-screen__button-group,
+.writing-screen__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* === Suggestion Button === */
+.writing-screen__suggest-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.7rem 1.5rem;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(107, 62, 117, 0.2);
+  transition: background 0.2s ease, transform 0.15s ease;
+  width: 100%;
+  max-width: 70ch;
+}
+
+.writing-screen__suggest-button:hover,
+.writing-screen__suggest-button:focus-visible {
+  background-color: var(--color-primary-dark, rebeccapurple);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.suggest-icon {
+  color: var(--color-surface);
+}
+
+/* === Save Button === */
 .save-button {
-  position: sticky;
-  bottom: var(--space-sm);
-  z-index: 99;
-  margin: 0 auto var(--space-md);
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
   padding: 0.85rem 2rem;
   border-radius: var(--radius-md);
   background: var(--color-primary);
@@ -147,41 +186,6 @@
   transform: translateY(0);
 }
 
-/* === Suggestion Button === */
-.writing-screen__suggest-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  background-color: var(--color-primary);
-  color: var(--color-surface);
-  font-weight: 600;
-  font-size: 1rem;
-  padding: 0.7rem 1.5rem;
-  border-radius: var(--radius-md);
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(107, 62, 117, 0.2);
-  transition: background 0.2s ease, transform 0.15s ease;
-  margin-top: 1rem;
-
-  width: 100%;
-  max-width: 70ch;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.writing-screen__suggest-button:hover,
-.writing-screen__suggest-button:focus-visible {
-  background-color: var(--color-primary-dark, rebeccapurple);
-  transform: translateY(-2px);
-  outline: none;
-}
-
-.suggest-icon {
-  color: var(--color-surface);
-}
-
 /* === Suggestion Box === */
 .writing-screen__suggestion-box {
   background-color: var(--color-surface);
@@ -192,14 +196,12 @@
   max-width: 70ch;
 }
 
-/* === Suggestion Text === */
 .writing-screen__suggestion-text {
   font-size: 1rem;
   margin-bottom: 0.75rem;
   color: var(--color-text);
 }
 
-/* === Suggestion Action Buttons === */
 .writing-screen__suggestion-actions {
   display: flex;
   gap: 1rem;
@@ -296,16 +298,16 @@
     padding: var(--space-sm);
   }
 
-  .save-button {
-    position: static;
-    margin-left: 0;
-    margin-top: var(--space-sm);
+  .writing-screen__actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
 
+  .save-button,
   .writing-screen__suggest-button {
-    position: static;
-    margin-left: 0;
-    margin-right: 0;
-    width: 60%;
+    margin-top: 0;
+    width: auto;
   }
 }
