@@ -154,10 +154,25 @@ const WritingScreen = () => {
 
           {suggestion && (
             <div className={styles["writing-screen__suggestion-box"]}>
+              <p className={styles["writing-screen__suggestion-label"]}>
+                ✨ AI suggestion
+              </p>
               <p className={styles["writing-screen__suggestion-text"]}>
                 {suggestion}
               </p>
               <div className={styles["writing-screen__suggestion-actions"]}>
+                <button
+                  className={styles["writing-screen__suggestion-reject"]}
+                  onClick={rejectSuggestion}
+                >
+                  <XCircle
+                    className={styles["suggestion-icon"]}
+                    size={16}
+                    aria-hidden="true"
+                  />
+                  <span className="visually-hidden">Reject suggestion</span>
+                  Reject
+                </button>
                 <button
                   className={styles["writing-screen__suggestion-accept"]}
                   onClick={acceptSuggestion}
@@ -165,15 +180,10 @@ const WritingScreen = () => {
                   <CheckCircle
                     className={styles["suggestion-icon"]}
                     size={16}
+                    aria-hidden="true"
                   />
+                  <span className="visually-hidden">Accept suggestion</span>
                   Accept
-                </button>
-                <button
-                  className={styles["writing-screen__suggestion-reject"]}
-                  onClick={rejectSuggestion}
-                >
-                  <XCircle className={styles["suggestion-icon"]} size={16} />
-                  Reject
                 </button>
               </div>
             </div>
