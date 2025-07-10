@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./WritingScreen.module.css";
 import SavedStories from "../SavedStories/SavedStories";
+import ThinkingDots from "./ThinkingDots"; // New animated spinner
 import { getAISuggestion } from "../../api/openai";
 import { Sparkles, CheckCircle, XCircle, Save } from "lucide-react";
 
@@ -11,7 +12,6 @@ const WritingScreen = () => {
   const [text, setText] = useState("");
   const [isSaved, setIsSaved] = useState(false);
   const [stories, setStories] = useState([]);
-
   const [suggestion, setSuggestion] = useState("");
   const [loadingSuggestion, setLoadingSuggestion] = useState(false);
   const [error, setError] = useState(null);
@@ -131,9 +131,11 @@ const WritingScreen = () => {
               type="button"
               onClick={handleSuggestClick}
               disabled={loadingSuggestion || !text.trim()}
+              aria-busy={loadingSuggestion}
+              aria-label="Ask AI for next sentence suggestion"
             >
               <Sparkles className={styles["suggest-icon"]} size={18} />
-              {loadingSuggestion ? "Suggesting..." : "Suggest next sentence"}
+              {loadingSuggestion ? <ThinkingDots /> : "Suggest next sentence"}
             </button>
 
             <button
