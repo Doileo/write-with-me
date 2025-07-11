@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styles from "./WritingScreen.module.css";
 import SavedStories from "../SavedStories/SavedStories";
-import ThinkingDots from "./ThinkingDots"; // New animated spinner
+import ThinkingDots from "./ThinkingDots";
+import QuoteOfTheDay from "./QuoteOfTheDay";
 import { getAISuggestion } from "../../api/openai";
 import { Sparkles, CheckCircle, XCircle, Save } from "lucide-react";
 
@@ -109,10 +110,9 @@ const WritingScreen = () => {
             <p className={styles["writing-screen__subtext"]}>
               A focused space for your thoughts, stories, and reflections.
             </p>
-            <p className={styles["writing-screen__quote"]}>
-              “There is no greater agony than bearing an untold story inside
-              you.” – Maya Angelou
-            </p>
+
+            {/* ✨ NEW QUOTE COMPONENT */}
+            <QuoteOfTheDay />
           </div>
 
           <div className={styles["writing-screen__editor"]}>
