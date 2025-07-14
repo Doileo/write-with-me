@@ -3,6 +3,7 @@ import styles from "./WritingScreen.module.css";
 import SavedStories from "../SavedStories/SavedStories";
 import ThinkingDots from "./ThinkingDots";
 import QuoteOfTheDay from "./QuoteOfTheDay";
+import Toast from "./Toast";
 import { getAISuggestion } from "../../api/openai";
 import { Sparkles, CheckCircle, XCircle, Save } from "lucide-react";
 
@@ -16,7 +17,9 @@ const WritingScreen = () => {
   const [suggestion, setSuggestion] = useState("");
   const [loadingSuggestion, setLoadingSuggestion] = useState(false);
   const [error, setError] = useState(null);
+  const [toastMessage, setToastMessage] = useState("");
 
+  // Load draft and stories from localStorage on first render
   useEffect(() => {
     const savedText = localStorage.getItem(DRAFT_STORAGE_KEY);
     if (savedText) setText(savedText);
@@ -25,6 +28,7 @@ const WritingScreen = () => {
     if (savedStories) setStories(JSON.parse(savedStories));
   }, []);
 
+  // Auto-save draft every time `text` changes
   useEffect(() => {
     const handler = setTimeout(() => {
       localStorage.setItem(DRAFT_STORAGE_KEY, text);
@@ -35,9 +39,10 @@ const WritingScreen = () => {
     return () => clearTimeout(handler);
   }, [text]);
 
+  // Save a story to localStorage and show a toast
   const saveStory = () => {
     if (!text.trim()) {
-      alert("Cannot save an empty story. Please write something first.");
+      setToastMessage("❗ Please write something before saving.");
       return;
     }
 
@@ -58,21 +63,12 @@ const WritingScreen = () => {
     localStorage.setItem(STORIES_STORAGE_KEY, JSON.stringify(storedStories));
     setStories(storedStories);
 
-    alert(`Story "${newStory.title}" saved successfully!`);
     setText("");
     localStorage.removeItem(DRAFT_STORAGE_KEY);
+    setToastMessage(`✅ "${newStory.title}" saved successfully!`);
   };
 
-  const handleSelectStory = (story) => {
-    setText(story.content);
-  };
-
-  const handleDeleteStory = (id) => {
-    const filtered = stories.filter((s) => s.id !== id);
-    setStories(filtered);
-    localStorage.setItem(STORIES_STORAGE_KEY, JSON.stringify(filtered));
-  };
-
+  // Suggest next sentence using AI
   const handleSuggestClick = async () => {
     if (!text.trim()) {
       setError("Please write something before asking for a suggestion.");
@@ -84,21 +80,28 @@ const WritingScreen = () => {
     try {
       const aiSuggestion = await getAISuggestion(text);
       setSuggestion(aiSuggestion);
-    } catch (err) {
-      console.error(err);
+    } catch {
       setError("Failed to get suggestion. Please try again.");
     } finally {
       setLoadingSuggestion(false);
     }
   };
 
+  // Accept or reject AI suggestion
   const acceptSuggestion = () => {
     setText((prev) => prev + (prev.endsWith(" ") ? "" : " ") + suggestion);
     setSuggestion("");
   };
-
   const rejectSuggestion = () => {
     setSuggestion("");
+  };
+
+  // Select and delete stories from SavedStories
+  const handleSelectStory = (story) => setText(story.content);
+  const handleDeleteStory = (id) => {
+    const filtered = stories.filter((s) => s.id !== id);
+    setStories(filtered);
+    localStorage.setItem(STORIES_STORAGE_KEY, JSON.stringify(filtered));
   };
 
   return (
@@ -110,8 +113,6 @@ const WritingScreen = () => {
             <p className={styles["writing-screen__subtext"]}>
               A focused space for your thoughts, stories, and reflections.
             </p>
-
-            {/* ✨ NEW QUOTE COMPONENT */}
             <QuoteOfTheDay />
           </div>
 
@@ -208,6 +209,11 @@ const WritingScreen = () => {
           onDelete={handleDeleteStory}
         />
       </div>
+
+      {/* Toast for save feedback */}
+      {toastMessage && (
+        <Toast message={toastMessage} onClose={() => setToastMessage("")} />
+      )}
     </section>
   );
 };
