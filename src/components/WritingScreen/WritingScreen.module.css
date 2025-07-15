@@ -291,6 +291,27 @@
   }
 }
 
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+  /* Add subtle elevation/shadow to buttons on tablets */
+  .writing-screen__suggest-button,
+  .save-button {
+    box-shadow: 0 6px 12px rgba(107, 62, 117, 0.25); /* stronger shadow */
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .writing-screen__suggest-button:hover,
+  .save-button:hover,
+  .writing-screen__suggest-button:focus-visible,
+  .save-button:focus-visible {
+    box-shadow: 0 12px 20px rgba(107, 62, 117, 0.45);
+    transform: translateY(-3px);
+    outline: none;
+  }
+}
+
 @media screen and (min-width: 1024px) {
   .writing-screen__container {
     position: relative;
