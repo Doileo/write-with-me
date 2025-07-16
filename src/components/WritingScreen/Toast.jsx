@@ -10,7 +10,12 @@ const Toast = ({ message, onClose, duration = 3000 }) => {
   if (!message) return null;
 
   return (
-    <div className={styles.toast} role="status" aria-live="polite">
+    <div
+      className={styles.toast}
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    >
       {message}
     </div>
   );

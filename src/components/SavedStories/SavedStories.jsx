@@ -30,6 +30,7 @@ const SavedStories = ({ stories, onSelect, onDelete }) => {
               <button
                 onClick={() => onSelect(story)}
                 className={styles["saved-stories__continue"]}
+                aria-label={`Continue writing story titled "${story.title}"`}
               >
                 Continue writing
               </button>
