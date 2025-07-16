@@ -1,3 +1,16 @@
+/* === visually hidden === */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 /* === writing-screen === */
 .writing-screen {
   background-color: var(--color-bg);
@@ -81,8 +94,9 @@
   font-style: italic;
 }
 
-.editor__textarea:focus {
-  box-shadow: 0 0 0 3px var(--color-focus-ring);
+.editor__textarea:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
 }
 
 /* === status message === */
@@ -148,6 +162,11 @@
   outline: none;
 }
 
+.writing-screen__suggest-button:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
 .suggestion-icon {
   color: var(--color-muted);
   pointer-events: none;
@@ -165,7 +184,8 @@
 .writing-screen__suggestion-accept:focus-visible,
 .writing-screen__suggestion-reject:focus-visible {
   outline: none;
-  box-shadow: none;
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+  border-color: var(--color-focus);
 }
 
 /* === Save Button === */
@@ -200,6 +220,11 @@
   box-shadow: 0 2px 6px rgba(107, 62, 117, 0.25),
     inset 0 -3px 5px rgba(0, 0, 0, 0.1);
   transform: translateY(0);
+}
+
+.save-button:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
 }
 
 /* === Suggestion Box === */
@@ -247,13 +272,6 @@
   border-color: var(--color-muted);
 }
 
-/* === Enhanced Suggestion Icon === */
-.suggestion-icon {
-  color: var(--color-muted);
-  transition: transform 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-  will-change: transform;
-}
-
 .writing-screen__suggestion-accept:hover .suggestion-icon {
   color: var(--color-focus);
   transform: scale(1.2);
@@ -292,10 +310,9 @@
 }
 
 @media screen and (min-width: 768px) and (max-width: 1023px) {
-  /* Add subtle elevation/shadow to buttons on tablets */
   .writing-screen__suggest-button,
   .save-button {
-    box-shadow: 0 6px 12px rgba(107, 62, 117, 0.25); /* stronger shadow */
+    box-shadow: 0 6px 12px rgba(107, 62, 117, 0.25);
     transition: box-shadow 0.3s ease, transform 0.2s ease;
     width: 100%;
     max-width: 320px;

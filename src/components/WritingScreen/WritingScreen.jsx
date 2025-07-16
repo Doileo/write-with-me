@@ -19,7 +19,6 @@ const WritingScreen = () => {
   const [error, setError] = useState(null);
   const [toastMessage, setToastMessage] = useState("");
 
-  // Load draft and stories from localStorage on first render
   useEffect(() => {
     const savedText = localStorage.getItem(DRAFT_STORAGE_KEY);
     if (savedText) setText(savedText);
@@ -28,7 +27,6 @@ const WritingScreen = () => {
     if (savedStories) setStories(JSON.parse(savedStories));
   }, []);
 
-  // Auto-save draft every time `text` changes
   useEffect(() => {
     const handler = setTimeout(() => {
       localStorage.setItem(DRAFT_STORAGE_KEY, text);
@@ -39,7 +37,6 @@ const WritingScreen = () => {
     return () => clearTimeout(handler);
   }, [text]);
 
-  // Save a story to localStorage and show a toast
   const saveStory = () => {
     if (!text.trim()) {
       setToastMessage("❗ Please write something before saving.");
@@ -68,7 +65,6 @@ const WritingScreen = () => {
     setToastMessage(`✅ "${newStory.title}" saved successfully!`);
   };
 
-  // Suggest next sentence using AI
   const handleSuggestClick = async () => {
     if (!text.trim()) {
       setError("Please write something before asking for a suggestion.");
@@ -87,7 +83,6 @@ const WritingScreen = () => {
     }
   };
 
-  // Accept or reject AI suggestion
   const acceptSuggestion = () => {
     setText((prev) => prev + (prev.endsWith(" ") ? "" : " ") + suggestion);
     setSuggestion("");
@@ -96,7 +91,6 @@ const WritingScreen = () => {
     setSuggestion("");
   };
 
-  // Select and delete stories from SavedStories
   const handleSelectStory = (story) => setText(story.content);
   const handleDeleteStory = (id) => {
     const filtered = stories.filter((s) => s.id !== id);
@@ -144,7 +138,11 @@ const WritingScreen = () => {
               type="button"
               onClick={saveStory}
             >
-              <Save className={styles["save-icon"]} size={18} />
+              <Save
+                className={styles["save-icon"]}
+                size={18}
+                aria-hidden="true"
+              />
               Save Story
             </button>
           </div>
@@ -173,7 +171,9 @@ const WritingScreen = () => {
                     size={16}
                     aria-hidden="true"
                   />
-                  <span className="visually-hidden">Reject suggestion</span>
+                  <span className={styles["visually-hidden"]}>
+                    Reject suggestion
+                  </span>
                   Reject
                 </button>
                 <button
@@ -185,7 +185,9 @@ const WritingScreen = () => {
                     size={16}
                     aria-hidden="true"
                   />
-                  <span className="visually-hidden">Accept suggestion</span>
+                  <span className={styles["visually-hidden"]}>
+                    Accept suggestion
+                  </span>
                   Accept
                 </button>
               </div>
@@ -210,7 +212,6 @@ const WritingScreen = () => {
         />
       </div>
 
-      {/* Toast for save feedback */}
       {toastMessage && (
         <Toast message={toastMessage} onClose={() => setToastMessage("")} />
       )}
