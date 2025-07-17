@@ -1,5 +1,5 @@
 import React from "react";
-import { Trash2 } from "lucide-react";
+import { Trash2, Pencil } from "lucide-react";
 import styles from "./SavedStories.module.css";
 
 const SavedStories = ({ stories, onSelect, onDelete }) => {
@@ -20,26 +20,36 @@ const SavedStories = ({ stories, onSelect, onDelete }) => {
       <ul className={styles["saved-stories__list"]}>
         {stories.map((story) => (
           <li key={story.id} className={styles["saved-stories__item"]}>
-            <div>
+            <div className={styles["saved-stories__info"]}>
               <h3 className={styles["saved-stories__title"]}>{story.title}</h3>
               <p className={styles["saved-stories__date"]}>
                 Saved on {new Date(story.dateSaved).toLocaleDateString()}
               </p>
             </div>
+
             <div className={styles["saved-stories__actions"]}>
               <button
                 onClick={() => onSelect(story)}
-                className={styles["saved-stories__continue"]}
-                aria-label={`Continue writing story titled "${story.title}"`}
+                className={styles["saved-stories__edit"]}
+                aria-label={`Edit story titled "${story.title}"`}
               >
-                Continue writing
+                <Pencil size={18} strokeWidth={1.8} />
+                <span>Edit</span>
               </button>
+
               <button
-                onClick={() => onDelete(story.id)}
-                aria-label={`Delete story ${story.title}`}
+                onClick={() => {
+                  if (
+                    confirm(`Are you sure you want to delete "${story.title}"?`)
+                  ) {
+                    onDelete(story.id);
+                  }
+                }}
                 className={styles["saved-stories__delete"]}
+                aria-label={`Delete story titled "${story.title}"`}
               >
-                <Trash2 size={20} strokeWidth={1.8} />
+                <Trash2 size={18} strokeWidth={1.8} />
+                <span>Delete</span>
               </button>
             </div>
           </li>

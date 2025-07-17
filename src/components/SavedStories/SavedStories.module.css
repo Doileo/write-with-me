@@ -1,4 +1,5 @@
 /* === Saved Stories === */
+
 .saved-stories {
   margin-top: var(--space-md);
 }
@@ -54,35 +55,59 @@
   align-items: center;
 }
 
-.saved-stories__continue {
-  background: transparent;
-  border: none;
-  color: var(--color-primary);
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0.4rem 1rem 0.4rem 0;
-  transition: color 0.2s ease;
-}
-
-.saved-stories__continue:hover {
-  color: var(--color-text);
-}
-
+/* Buttons with icon + text */
+.saved-stories__edit,
 .saved-stories__delete {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   background: none;
   border: none;
-  padding-top: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius-sm);
+  transition: color 0.2s ease, border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+/* Edit button styles with underline on hover/focus */
+.saved-stories__edit {
+  color: var(--color-primary);
+  font-weight: 600;
+  border-bottom: 2px solid transparent;
+  padding-top: 0.5rem;
+}
+
+.saved-stories__edit:hover,
+.saved-stories__edit:focus-visible {
+  color: var(--color-primary);
+  border-bottom: 2px solid var(--color-primary);
+  background-color: var(--color-surface-hover, #f0f0f0);
+}
+
+/* Delete button specific styles */
+.saved-stories__delete {
   color: var(--color-muted);
   font-weight: 500;
-  cursor: pointer;
   border-bottom: 2px solid transparent;
-  transition: border-color 0.2s ease, color 0.2s ease;
+  padding-top: 0.5rem;
 }
 
 .saved-stories__delete:hover,
 .saved-stories__delete:focus-visible {
   color: var(--color-delete, #e35a5a);
   border-bottom: 2px solid var(--color-delete, #e35a5a);
+  background-color: var(--color-surface-hover, #f0f0f0);
+}
+
+/* Icon sizes inside buttons */
+.saved-stories__edit svg,
+.saved-stories__delete svg {
+  stroke-width: 1.8;
+  width: 18px;
+  height: 18px;
 }
 
 @media screen and (min-width: 1024px) {
