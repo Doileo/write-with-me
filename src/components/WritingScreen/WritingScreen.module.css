@@ -99,6 +99,18 @@
   outline-offset: 2px;
 }
 
+/* === live character & word counter === */
+.writing-screen__counter {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  text-align: right;
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+  padding-right: var(--space-xs);
+  max-width: 70ch;
+  align-self: flex-end;
+}
+
 /* === status message === */
 .writing-screen__status {
   text-align: center;
@@ -295,6 +307,10 @@
   .editor__textarea {
     font-size: 1.15rem;
     min-height: 60vh;
+  }
+
+  .writing-screen__counter {
+    font-size: 0.9rem;
   }
 
   .writing-screen__subtext,

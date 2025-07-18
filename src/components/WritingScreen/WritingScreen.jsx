@@ -18,6 +18,8 @@ const WritingScreen = () => {
   const [loadingSuggestion, setLoadingSuggestion] = useState(false);
   const [error, setError] = useState(null);
   const [toastMessage, setToastMessage] = useState("");
+  const [charCount, setCharCount] = useState(0);
+  const [wordCount, setWordCount] = useState(0);
 
   useEffect(() => {
     const savedText = localStorage.getItem(DRAFT_STORAGE_KEY);
@@ -34,6 +36,10 @@ const WritingScreen = () => {
       const timeout = setTimeout(() => setIsSaved(false), 2000);
       return () => clearTimeout(timeout);
     }, 500);
+
+    setCharCount(text.length);
+    setWordCount(text.trim() === "" ? 0 : text.trim().split(/\s+/).length);
+
     return () => clearTimeout(handler);
   }, [text]);
 
@@ -87,11 +93,13 @@ const WritingScreen = () => {
     setText((prev) => prev + (prev.endsWith(" ") ? "" : " ") + suggestion);
     setSuggestion("");
   };
+
   const rejectSuggestion = () => {
     setSuggestion("");
   };
 
   const handleSelectStory = (story) => setText(story.content);
+
   const handleDeleteStory = (id) => {
     const filtered = stories.filter((s) => s.id !== id);
     setStories(filtered);
@@ -118,6 +126,10 @@ const WritingScreen = () => {
               value={text}
               onChange={(e) => setText(e.target.value)}
             />
+          </div>
+
+          <div className={styles["writing-screen__counter"]}>
+            <span>{wordCount} words</span> · <span>{charCount} characters</span>
           </div>
 
           <div className={styles["writing-screen__actions"]}>
