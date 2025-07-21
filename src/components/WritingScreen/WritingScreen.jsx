@@ -5,7 +5,7 @@ import ThinkingDots from "./ThinkingDots";
 import QuoteOfTheDay from "./QuoteOfTheDay";
 import Toast from "./Toast";
 import { getAISuggestion } from "../../api/openai";
-import { Sparkles, CheckCircle, XCircle, Save } from "lucide-react";
+import { Sparkles, CheckCircle, XCircle, Save, Download } from "lucide-react";
 
 const DRAFT_STORAGE_KEY = "writeWithMe-draft";
 const STORIES_STORAGE_KEY = "writeWithMe-stories";
@@ -30,17 +30,18 @@ const WritingScreen = () => {
   }, []);
 
   useEffect(() => {
-    const handler = setTimeout(() => {
+    const saveDraftTimeout = setTimeout(() => {
       localStorage.setItem(DRAFT_STORAGE_KEY, text);
       setIsSaved(true);
-      const timeout = setTimeout(() => setIsSaved(false), 2000);
-      return () => clearTimeout(timeout);
+
+      const clearStatusTimeout = setTimeout(() => setIsSaved(false), 2000);
+      return () => clearTimeout(clearStatusTimeout);
     }, 500);
 
     setCharCount(text.length);
     setWordCount(text.trim() === "" ? 0 : text.trim().split(/\s+/).length);
 
-    return () => clearTimeout(handler);
+    return () => clearTimeout(saveDraftTimeout);
   }, [text]);
 
   const saveStory = () => {
@@ -62,9 +63,9 @@ const WritingScreen = () => {
       dateSaved: new Date().toISOString(),
     };
 
-    const storedStories = [...stories, newStory];
-    localStorage.setItem(STORIES_STORAGE_KEY, JSON.stringify(storedStories));
-    setStories(storedStories);
+    const updatedStories = [...stories, newStory];
+    localStorage.setItem(STORIES_STORAGE_KEY, JSON.stringify(updatedStories));
+    setStories(updatedStories);
 
     setText("");
     localStorage.removeItem(DRAFT_STORAGE_KEY);
@@ -101,9 +102,32 @@ const WritingScreen = () => {
   const handleSelectStory = (story) => setText(story.content);
 
   const handleDeleteStory = (id) => {
-    const filtered = stories.filter((s) => s.id !== id);
-    setStories(filtered);
-    localStorage.setItem(STORIES_STORAGE_KEY, JSON.stringify(filtered));
+    const filteredStories = stories.filter((s) => s.id !== id);
+    setStories(filteredStories);
+    localStorage.setItem(STORIES_STORAGE_KEY, JSON.stringify(filteredStories));
+  };
+
+  const downloadFile = (filename, content) => {
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = filename;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+  };
+
+  const exportTxt = () => {
+    if (!text.trim()) {
+      setToastMessage("❗ Nothing to export.");
+      return;
+    }
+    downloadFile("story.txt", text);
   };
 
   return (
@@ -149,6 +173,7 @@ const WritingScreen = () => {
               className={styles["save-button"]}
               type="button"
               onClick={saveStory}
+              aria-label="Save your story"
             >
               <Save
                 className={styles["save-icon"]}
@@ -156,6 +181,16 @@ const WritingScreen = () => {
                 aria-hidden="true"
               />
               Save Story
+            </button>
+
+            <button
+              className={styles["export-button"]}
+              type="button"
+              onClick={exportTxt}
+              aria-label="Download your story as a text file"
+            >
+              <Download size={18} aria-hidden="true" />
+              Download
             </button>
           </div>
 
@@ -177,29 +212,25 @@ const WritingScreen = () => {
                 <button
                   className={styles["writing-screen__suggestion-reject"]}
                   onClick={rejectSuggestion}
+                  aria-label="Reject AI suggestion"
                 >
                   <XCircle
                     className={styles["suggestion-icon"]}
                     size={16}
                     aria-hidden="true"
                   />
-                  <span className={styles["visually-hidden"]}>
-                    Reject suggestion
-                  </span>
                   Reject
                 </button>
                 <button
                   className={styles["writing-screen__suggestion-accept"]}
                   onClick={acceptSuggestion}
+                  aria-label="Accept AI suggestion"
                 >
                   <CheckCircle
                     className={styles["suggestion-icon"]}
                     size={16}
                     aria-hidden="true"
                   />
-                  <span className={styles["visually-hidden"]}>
-                    Accept suggestion
-                  </span>
                   Accept
                 </button>
               </div>

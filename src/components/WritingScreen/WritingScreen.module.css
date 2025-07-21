@@ -239,6 +239,37 @@
   outline-offset: 2px;
 }
 
+.export-button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 2rem;
+  border-radius: var(--radius-md);
+  background-color: var(--color-accent); /* Lavender accent */
+  color: var(--color-surface); /* white */
+  font-family: var(--font-family-base);
+  font-weight: 600;
+  font-size: 1.1rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(165, 118, 166, 0.3); /* softened shadow matching accent */
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.export-button:hover,
+.export-button:focus-visible {
+  background-color: var(--color-primary); /* Deep Plum on hover/focus */
+  box-shadow: 0 12px 20px rgba(107, 62, 117, 0.6);
+  transform: translateY(-3px);
+  outline: none;
+}
+
+.export-button:focus-visible {
+  outline: 3px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
 /* === Suggestion Box === */
 .writing-screen__suggestion-box {
   background-color: var(--color-surface);
@@ -327,7 +358,8 @@
 
 @media screen and (min-width: 768px) and (max-width: 1023px) {
   .writing-screen__suggest-button,
-  .save-button {
+  .save-button,
+  .export-button {
     box-shadow: 0 6px 12px rgba(107, 62, 117, 0.25);
     transition: box-shadow 0.3s ease, transform 0.2s ease;
     width: 100%;
