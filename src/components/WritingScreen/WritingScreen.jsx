@@ -102,9 +102,17 @@ const WritingScreen = () => {
   const handleSelectStory = (story) => setText(story.content);
 
   const handleDeleteStory = (id) => {
+    const storyToDelete = stories.find((s) => s.id === id);
+
     const filteredStories = stories.filter((s) => s.id !== id);
     setStories(filteredStories);
     localStorage.setItem(STORIES_STORAGE_KEY, JSON.stringify(filteredStories));
+
+    // Clear editor if the deleted story matches current editor text
+    if (storyToDelete && storyToDelete.content === text) {
+      setText("");
+      localStorage.removeItem(DRAFT_STORAGE_KEY);
+    }
   };
 
   const downloadFile = (filename, content) => {
