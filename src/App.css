@@ -29,6 +29,22 @@
   --space-xl: 3rem;
 }
 
+/* ✅ Dark mode variables (placed OUTSIDE of :root!) */
+html[data-theme="dark"] {
+  --color-bg: #1a121d;
+  --color-surface: #2c1f31;
+  --color-border: #4d3d55;
+  --color-text: #f5edf7;
+  --color-muted: #a89aaa;
+
+  --color-primary: #c09fcf;
+  --color-accent: #d5a3d5;
+  --color-accent-soft: #ac89b4;
+  --color-focus: #d7a6e0;
+  --color-focus-ring: rgba(215, 166, 224, 0.25);
+  --color-delete: #e38b96;
+}
+
 /* === Reset & Box Model === */
 *,
 *::before,
@@ -52,6 +68,24 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+}
+
+/* Button styles */
+.theme-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: var(--color-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.theme-toggle:hover {
+  background-color: var(--color-accent-soft);
 }
 
 /* === Utility Classes === */
