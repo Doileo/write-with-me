@@ -2,14 +2,20 @@ import React, { useEffect, useState } from "react";
 import styles from "./QuoteOfTheDay.module.css";
 import { RefreshCw } from "lucide-react";
 
-// Just in case the API doesn't work, here are some fallback quotes
-// so the app still shows something meaningful instead of breaking.
+// Fallback quotes relevant to writing, creativity, and motivation
 const fallbackQuotes = [
   "“There is no greater agony than bearing an untold story inside you.” – Maya Angelou",
   "“Start writing, no matter what. The water does not flow until the faucet is turned on.” – Louis L’Amour",
   "“The scariest moment is always just before you start.” – Stephen King",
   "“You can always edit a bad page. You can’t edit a blank page.” – Jodi Picoult",
   "“Fill your paper with the breathings of your heart.” – William Wordsworth",
+  "“You don’t write because you want to say something, you write because you have something to say.” – F. Scott Fitzgerald",
+  "“If there's a book that you want to read, but it hasn't been written yet, then you must write it.” – Toni Morrison",
+  "“Write what should not be forgotten.” – Isabel Allende",
+  "“Writing is the painting of the voice.” – Voltaire",
+  "“The first draft is just you telling yourself the story.” – Terry Pratchett",
+  "“There is no real ending. It’s just the place where you stop the story.” – Frank Herbert",
+  "“You can make anything by writing.” – C.S. Lewis",
 ];
 
 const QuoteOfTheDay = () => {
@@ -20,32 +26,16 @@ const QuoteOfTheDay = () => {
   // Helps us show loading feedback and prevent spamming requests
   const [loading, setLoading] = useState(false);
 
-  // This function fetches a random quote from the API
-  // If it fails, we pick one from our fallback list instead
-  const fetchQuote = async () => {
-    setLoading(true); // Tell the app we’re loading something — UI will update accordingly
-    try {
-      const res = await fetch("https://api.quotable.io/random");
-
-      // If the response isn’t OK, we throw an error to jump to the catch block
-      if (!res.ok) throw new Error("Failed to fetch");
-
-      const data = await res.json();
-
-      // Format the quote nicely and save it in state to show on the page
-      setQuote(`“${data.content}” – ${data.author}`);
-    } catch (err) {
-      // Log the error so we know what went wrong when debugging later
-      console.error("Quote API error:", err);
-
-      // Randomly pick one of our fallback quotes to keep things running smoothly
+  // This function picks a random quote from fallbackQuotes
+  // and simulates loading with a small delay for UX
+  const fetchQuote = () => {
+    setLoading(true); // Show loading state
+    setTimeout(() => {
       const random =
         fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)];
       setQuote(random);
-    } finally {
-      // Done loading whether it succeeded or failed, so update the UI again
-      setLoading(false);
-    }
+      setLoading(false); // Done loading
+    }, 500); // 0.5 second delay to simulate fetch
   };
 
   // When the component first shows up, get a quote automatically
