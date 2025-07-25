@@ -73,14 +73,18 @@
   background: linear-gradient(to bottom right, #ffffff, #fdfbff);
 }
 
+:root[data-theme="dark"] .writing-screen__editor {
+  background: var(--color-surface);
+}
+
 .editor__textarea {
   width: 100%;
   min-height: 50vh;
   border: none;
-  background-color: transparent;
-  color: var(--color-text);
   font-family: var(--font-family-serif);
   font-size: 1.1rem;
+  background-color: var(--color-surface);
+  color: var(--color-text);
   line-height: 1.75;
   resize: vertical;
   outline: none;
