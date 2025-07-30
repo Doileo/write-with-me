@@ -20,6 +20,7 @@ const WritingScreen = () => {
   const [toastMessage, setToastMessage] = useState("");
   const [charCount, setCharCount] = useState(0);
   const [wordCount, setWordCount] = useState(0);
+  const [currentStoryId, setCurrentStoryId] = useState(null);
 
   useEffect(() => {
     const savedText = localStorage.getItem(DRAFT_STORAGE_KEY);
@@ -56,20 +57,39 @@ const WritingScreen = () => {
     );
     if (title === null) return;
 
-    const newStory = {
-      id: Date.now().toString(),
-      title: title.trim() || "Untitled Story",
-      content: text,
-      dateSaved: new Date().toISOString(),
-    };
+    const updatedStories = [...stories];
+    const dateSaved = new Date().toISOString();
 
-    const updatedStories = [...stories, newStory];
-    localStorage.setItem(STORIES_STORAGE_KEY, JSON.stringify(updatedStories));
+    if (currentStoryId) {
+      const index = updatedStories.findIndex((s) => s.id === currentStoryId);
+      if (index !== -1) {
+        updatedStories[index] = {
+          ...updatedStories[index],
+          title: title.trim() || "Untitled Story",
+          content: text,
+          dateSaved,
+        };
+        setToastMessage(
+          `✅ "${updatedStories[index].title}" updated successfully!`
+        );
+      }
+    } else {
+      const newStory = {
+        id: Date.now().toString(),
+        title: title.trim() || "Untitled Story",
+        content: text,
+        dateSaved,
+      };
+      updatedStories.push(newStory);
+      setToastMessage(`✅ "${newStory.title}" saved successfully!`);
+    }
+
     setStories(updatedStories);
+    localStorage.setItem(STORIES_STORAGE_KEY, JSON.stringify(updatedStories));
 
     setText("");
+    setCurrentStoryId(null);
     localStorage.removeItem(DRAFT_STORAGE_KEY);
-    setToastMessage(`✅ "${newStory.title}" saved successfully!`);
   };
 
   const handleSuggestClick = async () => {
@@ -99,18 +119,20 @@ const WritingScreen = () => {
     setSuggestion("");
   };
 
-  const handleSelectStory = (story) => setText(story.content);
+  const handleSelectStory = (story) => {
+    setText(story.content);
+    setCurrentStoryId(story.id);
+  };
 
   const handleDeleteStory = (id) => {
     const storyToDelete = stories.find((s) => s.id === id);
-
     const filteredStories = stories.filter((s) => s.id !== id);
     setStories(filteredStories);
     localStorage.setItem(STORIES_STORAGE_KEY, JSON.stringify(filteredStories));
 
-    // Clear editor if the deleted story matches current editor text
     if (storyToDelete && storyToDelete.content === text) {
       setText("");
+      setCurrentStoryId(null);
       localStorage.removeItem(DRAFT_STORAGE_KEY);
     }
   };
@@ -158,6 +180,20 @@ const WritingScreen = () => {
               value={text}
               onChange={(e) => setText(e.target.value)}
             />
+
+            {currentStoryId && (
+              <button
+                className={styles["cancel-edit-button"]}
+                onClick={() => {
+                  setText("");
+                  setCurrentStoryId(null);
+                  localStorage.removeItem(DRAFT_STORAGE_KEY);
+                }}
+                aria-label="Cancel editing current story"
+              >
+                Cancel Edit
+              </button>
+            )}
           </div>
 
           <div className={styles["writing-screen__counter"]}>
@@ -188,7 +224,7 @@ const WritingScreen = () => {
                 size={18}
                 aria-hidden="true"
               />
-              Save Story
+              {currentStoryId ? "Update Story" : "Save Story"}
             </button>
 
             <button

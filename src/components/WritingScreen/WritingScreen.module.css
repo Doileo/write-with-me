@@ -103,6 +103,26 @@
   outline-offset: 2px;
 }
 
+.cancel-edit-button {
+  background-color: transparent;
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+  padding: var(--space-xs) var(--space-sm);
+  font-size: 0.875rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  margin-top: var(--space-sm);
+  align-self: flex-start;
+  transition: all 0.2s ease;
+}
+
+.cancel-edit-button:hover,
+.cancel-edit-button:focus {
+  background-color: var(--color-surface);
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+  outline: none;
+}
+
 /* === live character & word counter === */
 .writing-screen__counter {
   font-size: 0.875rem;
