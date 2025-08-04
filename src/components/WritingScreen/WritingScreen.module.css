@@ -58,7 +58,9 @@
   text-align: center;
   font-size: 1rem;
   font-style: italic;
-  color: var(--color-muted);
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
   max-width: 50ch;
   margin: 0 auto;
 }
