@@ -1,5 +1,5 @@
 import React from "react";
-import { Trash2, Pencil } from "lucide-react";
+import { Trash2, Pencil, FileText } from "lucide-react";
 import styles from "./SavedStories.module.css";
 
 const SavedStories = ({ stories, onSelect, onDelete }) => {
@@ -18,42 +18,66 @@ const SavedStories = ({ stories, onSelect, onDelete }) => {
       <h2 className={styles["saved-stories__heading"]}>Saved Stories</h2>
 
       <ul className={styles["saved-stories__list"]}>
-        {stories.map((story) => (
-          <li key={story.id} className={styles["saved-stories__item"]}>
-            <div className={styles["saved-stories__info"]}>
-              <h3 className={styles["saved-stories__title"]}>{story.title}</h3>
-              <p className={styles["saved-stories__date"]}>
-                Saved on {new Date(story.dateSaved).toLocaleDateString()}
-              </p>
-            </div>
+        {stories.map((story) => {
+          const firstLine = story.text?.split("\n")[0] || "";
 
-            <div className={styles["saved-stories__actions"]}>
-              <button
-                onClick={() => onSelect(story)}
-                className={styles["saved-stories__edit"]}
-                aria-label={`Edit story titled "${story.title}"`}
-              >
-                <Pencil size={18} strokeWidth={1.8} />
-                <span>Edit</span>
-              </button>
+          return (
+            <li
+              key={story.id}
+              className={styles["saved-stories__item"]}
+              onClick={() => onSelect(story)}
+            >
+              <div className={styles["saved-stories__info"]}>
+                <div className={styles["saved-stories__icon"]}>
+                  <FileText size={20} strokeWidth={1.5} />
+                </div>
 
-              <button
-                onClick={() => {
-                  if (
-                    confirm(`Are you sure you want to delete "${story.title}"?`)
-                  ) {
-                    onDelete(story.id);
-                  }
-                }}
-                className={styles["saved-stories__delete"]}
-                aria-label={`Delete story titled "${story.title}"`}
+                <div className={styles["saved-stories__text"]}>
+                  <h3 className={styles["saved-stories__title"]}>
+                    {story.title}
+                  </h3>
+                  <p className={styles["saved-stories__snippet"]}>
+                    {firstLine}
+                  </p>
+                  <p className={styles["saved-stories__date"]}>
+                    Saved on {new Date(story.dateSaved).toLocaleDateString()}
+                  </p>
+                </div>
+              </div>
+
+              <div
+                className={styles["saved-stories__actions"]}
+                onClick={(e) => e.stopPropagation()}
               >
-                <Trash2 size={18} strokeWidth={1.8} />
-                <span>Delete</span>
-              </button>
-            </div>
-          </li>
-        ))}
+                <button
+                  onClick={() => onSelect(story)}
+                  className={styles["saved-stories__edit"]}
+                  aria-label={`Edit story titled "${story.title}"`}
+                >
+                  <Pencil size={18} strokeWidth={1.8} />
+                  <span>Edit</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    if (
+                      confirm(
+                        `Are you sure you want to delete "${story.title}"?`
+                      )
+                    ) {
+                      onDelete(story.id);
+                    }
+                  }}
+                  className={styles["saved-stories__delete"]}
+                  aria-label={`Delete story titled "${story.title}"`}
+                >
+                  <Trash2 size={18} strokeWidth={1.8} />
+                  <span>Delete</span>
+                </button>
+              </div>
+            </li>
+          );
+        })}
       </ul>
     </section>
   );

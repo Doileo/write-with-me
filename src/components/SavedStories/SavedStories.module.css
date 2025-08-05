@@ -55,6 +55,18 @@
   align-items: center;
 }
 
+/* New: Text snippet preview */
+.saved-stories__snippet {
+  font-size: 0.92rem;
+  color: var(--color-muted);
+  font-style: italic;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  line-height: 1.4;
+}
+
 /* Buttons with icon + text */
 .saved-stories__edit,
 .saved-stories__delete {
