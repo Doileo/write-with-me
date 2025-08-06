@@ -19,7 +19,7 @@ const SavedStories = ({ stories, onSelect, onDelete }) => {
 
       <ul className={styles["saved-stories__list"]}>
         {stories.map((story) => {
-          const firstLine = story.text?.split("\n")[0] || "";
+          const firstLine = story.content?.split("\n")[0] || "";
 
           return (
             <li
@@ -39,6 +39,7 @@ const SavedStories = ({ stories, onSelect, onDelete }) => {
                   <p className={styles["saved-stories__snippet"]}>
                     {firstLine}
                   </p>
+
                   <p className={styles["saved-stories__date"]}>
                     Saved on {new Date(story.dateSaved).toLocaleDateString()}
                   </p>
