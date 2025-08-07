@@ -365,10 +365,12 @@
 
 .writing-screen__suggestion-accept:hover,
 .writing-screen__suggestion-reject:hover {
-  background-color: var(--color-muted-bg, #f3eefc);
+  background-color: var(--color-muted-bg);
   border-color: var(--color-muted);
+  color: var(--color-text);
 }
 
+/* Making icons color and scale dynamic on hover */
 .writing-screen__suggestion-accept:hover .suggestion-icon {
   color: var(--color-focus);
   transform: scale(1.2);
@@ -379,6 +381,12 @@
   color: var(--color-delete);
   transform: scale(1.2) rotate(-5deg);
   box-shadow: 0 0 8px rgba(211, 109, 122, 0.25);
+}
+
+/* Dark mode overrides for hover text color to improve contrast */
+html[data-theme="dark"] .writing-screen__suggestion-accept:hover,
+html[data-theme="dark"] .writing-screen__suggestion-reject:hover {
+  color: #fff;
 }
 
 /* === Responsive === */

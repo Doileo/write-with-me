@@ -5,6 +5,7 @@
   --color-border: #e1d9e4;
   --color-text: #201824;
   --color-muted: #6b5e6e;
+  --color-muted-bg: #f3eefc;
 
   --color-primary: #6b3e75; /* Deep Plum */
   --color-accent: #a576a6; /* Lavender accent */
@@ -36,6 +37,7 @@ html[data-theme="dark"] {
   --color-border: #4d3d55;
   --color-text: #f5edf7;
   --color-muted: #a89aaa;
+  --color-muted-bg: #4d3d55;
 
   --color-primary: #c09fcf;
   --color-accent: #d5a3d5;
