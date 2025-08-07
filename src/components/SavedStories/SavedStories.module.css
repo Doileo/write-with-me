@@ -75,9 +75,15 @@
   text-overflow: ellipsis;
   max-width: 100%;
   line-height: 1.4;
+  /* Line clamp for multiline truncation */
   display: -webkit-box;
-  -webkit-line-clamp: 2; /* Limit to 2 lines */
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+
+  /* Fallback for other browsers */
+  display: box;
+  line-clamp: 2;
+  box-orient: vertical;
 }
 
 /* Actions: edit/delete */
@@ -117,7 +123,15 @@
 .saved-stories__edit:focus-visible {
   color: var(--color-primary);
   border-bottom: 2px solid var(--color-primary);
-  background-color: var(--color-surface-hover, #f0f0f0);
+  background-color: var(--color-muted-bg);
+  transform: scale(1.03);
+  box-shadow: 0 0 6px var(--color-focus-ring);
+}
+
+.saved-stories__edit,
+.saved-stories__delete {
+  transition: color 0.2s ease, border-color 0.2s ease,
+    background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 /* Delete button */
@@ -128,11 +142,14 @@
   padding-top: 0.5rem;
 }
 
+/* Delete button */
 .saved-stories__delete:hover,
 .saved-stories__delete:focus-visible {
-  color: var(--color-delete, #e35a5a);
-  border-bottom: 2px solid var(--color-delete, #e35a5a);
-  background-color: var(--color-surface-hover, #f0f0f0);
+  color: var(--color-delete);
+  border-bottom: 2px solid var(--color-delete);
+  background-color: var(--color-muted-bg);
+  transform: scale(1.03) rotate(-1deg);
+  box-shadow: 0 0 6px var(--color-focus-ring);
 }
 
 /* Icon sizes */
