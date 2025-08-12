@@ -19,11 +19,13 @@ function App() {
   return (
     <main>
       <button
-        className="theme-toggle"
+        className={`theme-toggle ${isDarkMode ? "dark" : "light"}`}
         onClick={() => setIsDarkMode((prev) => !prev)}
         aria-label="Toggle dark mode"
       >
-        {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+        <Sun className="icon sun" size={20} />
+        <Moon className="icon moon" size={20} />
+        <span className="toggle-slider" />
       </button>
       <WritingScreen />
     </main>
