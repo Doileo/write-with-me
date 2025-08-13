@@ -73,111 +73,82 @@ body {
 }
 
 /* Button styles */
-.theme-toggle {
+/* === Wrapper for icons + toggle === */
+.theme-toggle-wrapper {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  width: 70px; /* more room for icons */
-  height: 34px;
-  backdrop-filter: blur(6px);
-  border-radius: 50px;
-  cursor: pointer;
-  padding: 0 10px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  box-sizing: border-box;
-  transition: background 0.3s ease, border 0.3s ease;
+  gap: 0.5rem;
 }
 
-.theme-toggle.light {
+/* === Toggle track === */
+.theme-toggle {
+  width: 70px;
+  height: 34px;
   background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(0, 0, 0, 0.1); /* soft dark border */
+  border-radius: 50px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  position: relative;
+  cursor: pointer;
+  transition: background 0.3s ease, border 0.3s ease;
 }
 
 .theme-toggle.dark {
   background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.15); /* subtle light border */
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-/* Optional floating effect */
-.theme-toggle.dark {
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-}
-
-.theme-toggle .icon {
-  position: relative;
-  pointer-events: none;
-  transition: opacity 0.3s ease, color 0.3s ease, transform 0.3s ease;
-}
-
-/* Glow effect behind icons */
-.theme-toggle .icon::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  z-index: -1;
-  transition: opacity 0.4s ease, box-shadow 0.4s ease;
-  opacity: 0;
-}
-
-/* Sun active glow */
-.theme-toggle.light .sun::after {
-  opacity: 1;
-  box-shadow: 0 0 10px 5px rgba(251, 191, 36, 0.5);
-}
-
-/* Moon active glow */
-.theme-toggle.dark .moon::after {
-  opacity: 1;
-  box-shadow: 0 0 10px 5px rgba(167, 139, 250, 0.5);
-}
-
-/* Active icon colors */
-.theme-toggle.light .sun {
-  opacity: 1;
-  color: #fbbf24; /* bright warm yellow */
-}
-
-.theme-toggle.dark .moon {
-  opacity: 1;
-  color: #a78bfa; /* soft lavender */
-}
-
-/* Inactive icon colors — still visible */
-.theme-toggle.dark .sun {
-  opacity: 0.6;
-  color: #facc15; /* yellow but dimmer */
-}
-
-.theme-toggle.light .moon {
-  opacity: 0.6;
-  color: #a78bfa; /* lavender but dimmer */
-}
-
-/* Toggle knob */
+/* === Knob (from your provided styles) === */
 .theme-toggle .toggle-slider {
   position: absolute;
   top: 3px;
   left: 3px;
   width: 28px;
   height: 28px;
-  background: var(--color-surface);
+  background: linear-gradient(
+    145deg,
+    var(--color-surface) 0%,
+    var(--color-accent-soft) 100%
+  );
+  border: 1px solid var(--color-accent-soft);
   border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: transform 0.5s ease-in-out, background 0.3s ease,
-    box-shadow 0.3s ease;
+  box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.5),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .theme-toggle.dark .toggle-slider {
   transform: translateX(36px);
-  background: var(--color-accent);
-  box-shadow: 0 0 8px rgba(167, 139, 250, 0.4);
+  background: linear-gradient(
+    145deg,
+    var(--color-accent) 0%,
+    var(--color-primary) 100%
+  );
+  border: 1px solid var(--color-primary);
+  box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.15),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.25), 0 0 8px rgba(167, 139, 250, 0.5);
+}
+
+/* === Icons (outside) === */
+.icon {
+  opacity: 0.5;
+  transition: opacity 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+.icon.sun {
+  color: #fbbf24; /* warm yellow */
+}
+
+.icon.moon {
+  color: #a78bfa; /* lavender */
+}
+
+.icon.active {
+  opacity: 1;
+  transform: scale(1.05);
 }
 
 /* === Utility Classes === */

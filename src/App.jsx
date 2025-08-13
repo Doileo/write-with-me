@@ -18,15 +18,19 @@ function App() {
 
   return (
     <main>
-      <button
-        className={`theme-toggle ${isDarkMode ? "dark" : "light"}`}
-        onClick={() => setIsDarkMode((prev) => !prev)}
-        aria-label="Toggle dark mode"
-      >
-        <Sun className="icon sun" size={20} />
-        <Moon className="icon moon" size={20} />
-        <span className="toggle-slider" />
-      </button>
+      <div className="theme-toggle-wrapper">
+        <Sun className={`icon sun ${!isDarkMode ? "active" : ""}`} size={20} />
+
+        <button
+          className={`theme-toggle ${isDarkMode ? "dark" : "light"}`}
+          onClick={() => setIsDarkMode((prev) => !prev)}
+          aria-label="Toggle dark mode"
+        >
+          <span className="toggle-slider" />
+        </button>
+
+        <Moon className={`icon moon ${isDarkMode ? "active" : ""}`} size={20} />
+      </div>
       <WritingScreen />
     </main>
   );
