@@ -74,7 +74,7 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   padding: var(--space-sm);
   background: linear-gradient(to bottom right, #ffffff, #fdfbff);
-  max-width: 70ch;
+  /*max-width: 70ch;*/
   width: 100%;
 }
 
@@ -82,7 +82,6 @@
 .editor-container {
   position: relative;
   width: 100%;
-  max-width: 70ch;
 }
 
 /* === editor placeholder === */
@@ -128,7 +127,7 @@
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 8px;
-  padding: var(--space-xs);
+  padding: var(--space-sm);
 
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
@@ -240,7 +239,7 @@
   box-shadow: 0 6px 12px rgba(155, 111, 161, 0.25); /* softer shadow */
   transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
   width: 100%;
-  max-width: 70ch;
+  /*max-width: 70ch;*/
 }
 
 .writing-screen__suggest-button:hover {
@@ -331,7 +330,6 @@
   padding: 1rem;
   border-radius: var(--radius-md);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-  max-width: 70ch;
   position: relative;
 }
 
@@ -491,6 +489,7 @@ html[data-theme="dark"] .writing-screen__suggestion-reject:hover {
   .writing-screen__suggest-button {
     margin-top: 0;
     width: auto;
+    padding: 1rem 1.25rem;
   }
 }
 
@@ -503,5 +502,12 @@ html[data-theme="dark"] .writing-screen__suggestion-reject:hover {
   .writing-screen__suggestion-reject {
     width: 100%;
     justify-content: center;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .save-button,
+  .writing-screen__suggest-button {
+    padding: 1rem 2.5rem;
   }
 }
