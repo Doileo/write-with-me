@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./QuoteOfTheDay.module.css";
-import { RefreshCw } from "lucide-react";
+import { RefreshCw, ChevronDown } from "lucide-react";
 
-// Fallback quotes relevant to writing, creativity, and motivation
 const fallbackQuotes = [
   "“There is no greater agony than bearing an untold story inside you.” – Maya Angelou",
   "“Start writing, no matter what. The water does not flow until the faucet is turned on.” – Louis L’Amour",
@@ -19,50 +18,53 @@ const fallbackQuotes = [
 ];
 
 const QuoteOfTheDay = () => {
-  // This state keeps the quote text we're showing on screen
   const [quote, setQuote] = useState("");
-
-  // Tracks whether we’re waiting for a quote from the API
-  // Helps us show loading feedback and prevent spamming requests
   const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
-  // This function picks a random quote from fallbackQuotes
-  // and simulates loading with a small delay for UX
   const fetchQuote = () => {
-    setLoading(true); // Show loading state
+    setLoading(true);
     setTimeout(() => {
       const random =
         fallbackQuotes[Math.floor(Math.random() * fallbackQuotes.length)];
       setQuote(random);
-      setLoading(false); // Done loading
-    }, 500); // 0.5 second delay to simulate fetch
+      setLoading(false);
+    }, 500);
   };
 
-  // When the component first shows up, get a quote automatically
-  // The empty dependency array means this runs only once after mounting
   useEffect(() => {
     fetchQuote();
   }, []);
 
   return (
-    // Using aria-live so screen readers announce new quotes politely
-    <div className={styles.quoteBox} role="region" aria-live="polite">
-      {/* Show a loading message while waiting for the quote, else show the quote */}
-      <blockquote className={styles.quoteText}>
-        {loading ? "Loading quote..." : quote}
-      </blockquote>
-
-      {/* Button to refresh the quote on demand */}
-      {/* Disabled during loading so user can’t spam clicks */}
+    <div className={styles.quoteBox}>
       <button
-        onClick={fetchQuote}
-        className={`${styles.refreshButton} ${loading ? styles.loading : ""}`}
-        aria-label="Refresh quote" // Makes button clear for screen readers
-        disabled={loading}
+        className={styles.toggleButton}
+        onClick={() => setIsOpen((prev) => !prev)}
       >
-        {/* Refresh icon for a clear visual cue */}
-        <RefreshCw className={styles.refreshIcon} size={16} />
+        <span>{isOpen ? "Hide quote" : "Show quote"}</span>
+        <ChevronDown
+          className={`${styles.arrowIcon} ${isOpen ? styles.arrowOpen : ""}`}
+          size={16}
+        />
       </button>
+
+      <div
+        className={`${styles.quoteContent} ${isOpen ? styles.open : ""}`}
+        aria-hidden={!isOpen}
+      >
+        <blockquote className={styles.quoteText}>
+          {loading ? "Loading quote..." : quote}
+        </blockquote>
+        <button
+          onClick={fetchQuote}
+          className={`${styles.refreshButton} ${loading ? styles.loading : ""}`}
+          aria-label="Refresh quote"
+          disabled={loading}
+        >
+          <RefreshCw className={styles.refreshIcon} size={16} />
+        </button>
+      </div>
     </div>
   );
 };
