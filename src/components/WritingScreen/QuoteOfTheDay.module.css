@@ -3,6 +3,7 @@
   flex-direction: column;
   gap: var(--space-sm);
   padding: 0;
+  width: 100%;
 }
 
 /* Toggle button – main accent */
@@ -12,11 +13,13 @@
   color: var(--color-accent);
   font-weight: 600;
   cursor: pointer;
-  padding: 0.5rem 1rem;
+  padding: 0.75rem 1rem;
   border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: 0.5rem;
+  width: 100%;
   transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease,
     box-shadow 0.3s ease;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
@@ -51,9 +54,8 @@
   max-height: 0;
   opacity: 0;
   display: flex;
-  flex-direction: column; /* stack quote + refresh button */
   gap: 0.5rem;
-  padding-left: 0.5rem; /* subtle indentation */
+  padding: 0 1rem 1rem;
 }
 
 .open {
@@ -66,7 +68,7 @@
   font-size: 1rem;
   color: var(--color-text);
   font-style: italic;
-  margin: 0; /* keep inside quoteContent */
+  margin: 0;
 }
 
 /* Refresh button */
