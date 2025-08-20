@@ -76,12 +76,12 @@ body {
 /* === Wrapper for icons + toggle === */
 .theme-toggle-wrapper {
   position: absolute;
-  top: 1rem;
+  top: 0.5rem;
   right: 1rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding-top: 1rem;
+  padding-top: 0.5rem;
 }
 
 /* === Toggle track === */
