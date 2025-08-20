@@ -9,6 +9,7 @@ import { Sparkles, CheckCircle, XCircle, Save, Download } from "lucide-react";
 
 const DRAFT_STORAGE_KEY = "writeWithMe-draft";
 const STORIES_STORAGE_KEY = "writeWithMe-stories";
+const SHOWN_UP_DAYS_KEY = "writeWithMe-shown-up-days";
 
 const WritingScreen = () => {
   const [text, setText] = useState("");
@@ -20,6 +21,8 @@ const WritingScreen = () => {
   const [toastMessage, setToastMessage] = useState("");
   const [charCount, setCharCount] = useState(0);
   const [wordCount, setWordCount] = useState(0);
+  const [readingTime, setReadingTime] = useState(0);
+  const [daysShownUp, setDaysShownUp] = useState(0);
   const [currentStoryId, setCurrentStoryId] = useState(null);
 
   useEffect(() => {
@@ -28,6 +31,10 @@ const WritingScreen = () => {
 
     const savedStories = localStorage.getItem(STORIES_STORAGE_KEY);
     if (savedStories) setStories(JSON.parse(savedStories));
+
+    const storedDays =
+      JSON.parse(localStorage.getItem(SHOWN_UP_DAYS_KEY)) || [];
+    setDaysShownUp(storedDays.length);
   }, []);
 
   useEffect(() => {
@@ -39,8 +46,24 @@ const WritingScreen = () => {
       return () => clearTimeout(clearStatusTimeout);
     }, 500);
 
+    // update counts
+    const words = text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
+    setWordCount(words);
     setCharCount(text.length);
-    setWordCount(text.trim() === "" ? 0 : text.trim().split(/\s+/).length);
+    setReadingTime(Math.max(1, Math.ceil(words / 200))); // at least 1 min if > 0 words
+
+    // handle days shown up
+    if (text.trim().length > 0) {
+      const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+      const storedDays =
+        JSON.parse(localStorage.getItem(SHOWN_UP_DAYS_KEY)) || [];
+
+      if (!storedDays.includes(today)) {
+        const updatedDays = [...storedDays, today];
+        localStorage.setItem(SHOWN_UP_DAYS_KEY, JSON.stringify(updatedDays));
+        setDaysShownUp(updatedDays.length);
+      }
+    }
 
     return () => clearTimeout(saveDraftTimeout);
   }, [text]);
@@ -207,7 +230,12 @@ const WritingScreen = () => {
           </div>
 
           <div className={styles["writing-screen__counter"]}>
-            <span>{wordCount} words</span> · <span>{charCount} characters</span>
+            <span>{wordCount} words</span> · <span>{charCount} characters</span>{" "}
+            · <span>{readingTime} min read</span>
+          </div>
+
+          <div className={styles["writing-screen__streak"]}>
+            🌱 Days you’ve shown up: {daysShownUp}
           </div>
 
           <div className={styles["writing-screen__actions"]}>
