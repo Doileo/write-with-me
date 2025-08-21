@@ -24,7 +24,9 @@ const WritingScreen = () => {
   const [readingTime, setReadingTime] = useState(0);
   const [daysShownUp, setDaysShownUp] = useState(0);
   const [currentStoryId, setCurrentStoryId] = useState(null);
+  const [sparkleTrigger, setSparkleTrigger] = useState(false);
 
+  // Load initial data
   useEffect(() => {
     const savedText = localStorage.getItem(DRAFT_STORAGE_KEY);
     if (savedText) setText(savedText);
@@ -37,6 +39,16 @@ const WritingScreen = () => {
     setDaysShownUp(storedDays.length);
   }, []);
 
+  // Track day count increment for sparkle animation
+  useEffect(() => {
+    if (daysShownUp > 0) {
+      setSparkleTrigger(true);
+      const timer = setTimeout(() => setSparkleTrigger(false), 800);
+      return () => clearTimeout(timer);
+    }
+  }, [daysShownUp]);
+
+  // Auto-save, counts, and day streak
   useEffect(() => {
     const saveDraftTimeout = setTimeout(() => {
       localStorage.setItem(DRAFT_STORAGE_KEY, text);
@@ -61,7 +73,7 @@ const WritingScreen = () => {
       if (!storedDays.includes(today)) {
         const updatedDays = [...storedDays, today];
         localStorage.setItem(SHOWN_UP_DAYS_KEY, JSON.stringify(updatedDays));
-        setDaysShownUp(updatedDays.length);
+        setDaysShownUp(updatedDays.length); // triggers sparkle animation
       }
     }
 
@@ -109,7 +121,6 @@ const WritingScreen = () => {
 
     setStories(updatedStories);
     localStorage.setItem(STORIES_STORAGE_KEY, JSON.stringify(updatedStories));
-
     setText("");
     setCurrentStoryId(null);
     localStorage.removeItem(DRAFT_STORAGE_KEY);
@@ -235,7 +246,11 @@ const WritingScreen = () => {
           </div>
 
           <div className={styles["writing-screen__streak"]}>
-            🌱 Days you’ve shown up: {daysShownUp}
+            <Sparkles
+              size={18}
+              className={sparkleTrigger ? styles["sparkle-animate"] : ""}
+            />
+            Days you’ve shown up: {daysShownUp}
           </div>
 
           <div className={styles["writing-screen__actions"]}>

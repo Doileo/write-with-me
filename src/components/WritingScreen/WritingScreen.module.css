@@ -214,6 +214,56 @@
   }
 }
 
+.writing-screen__streak {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-align: left;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.writing-screen__streak svg {
+  stroke: #9b5de5; /* violet color */
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+
+/* trigger class for sparkle animation */
+@keyframes sparkle {
+  0% {
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 0 violet);
+    opacity: 0.8;
+  }
+  25% {
+    transform: scale(1.3) rotate(15deg);
+    filter: drop-shadow(0 0 6px violet);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1) rotate(-15deg);
+    filter: drop-shadow(0 0 12px violet);
+    opacity: 1;
+  }
+  75% {
+    transform: scale(1.2) rotate(10deg);
+    filter: drop-shadow(0 0 6px violet);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    filter: drop-shadow(0 0 0 violet);
+    opacity: 0.8;
+  }
+}
+
+.sparkle-animate {
+  animation: sparkle 0.8s ease-in-out;
+  color: violet; /* make the icon itself violet */
+}
+
 /* === button group wrapper === */
 .writing-screen__button-group,
 .writing-screen__actions {
