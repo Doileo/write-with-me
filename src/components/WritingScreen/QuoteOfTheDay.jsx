@@ -61,6 +61,7 @@ const QuoteOfTheDay = () => {
           className={`${styles.refreshButton} ${loading ? styles.loading : ""}`}
           aria-label="Refresh quote"
           disabled={loading}
+          tabIndex={isOpen ? 0 : -1}
         >
           <RefreshCw className={styles.refreshIcon} size={16} />
         </button>
