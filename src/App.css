@@ -32,19 +32,19 @@
 
 /* ✅ Dark mode variables (placed OUTSIDE of :root!) */
 html[data-theme="dark"] {
-  --color-bg: #1a121d;
-  --color-surface: #2c1f31;
-  --color-border: #4d3d55;
-  --color-text: #f5edf7;
-  --color-muted: #a89aaa;
-  --color-muted-bg: #4d3d55;
+  --color-bg: #1a121d; /* deep background */
+  --color-surface: #241628; /* lifted panels */
+  --color-border: #3a2b3f; /* softer border */
+  --color-text: #f5edf7; /* main text */
+  --color-muted: #b8a9c0; /* secondary text */
+  --color-muted-bg: #33283a; /* subtle hovers / muted backgrounds */
 
-  --color-primary: #c09fcf;
-  --color-accent: #d5a3d5;
-  --color-accent-soft: #ac89b4;
-  --color-focus: #d7a6e0;
-  --color-focus-ring: rgba(215, 166, 224, 0.25);
-  --color-delete: #e38b96;
+  --color-primary: #bb86fc; /* vivid CTA */
+  --color-accent: #d5a3d5; /* lavender highlight */
+  --color-accent-soft: #ac89b4; /* soft lilac */
+  --color-focus: #e4b2f1; /* bright focus */
+  --color-focus-ring: rgba(228, 178, 241, 0.35);
+  --color-delete: #e38b96; /* error */
 }
 
 /* === Reset & Box Model === */
