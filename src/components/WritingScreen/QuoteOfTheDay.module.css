@@ -1,3 +1,4 @@
+/* === Quote Box Container === */
 .quoteBox {
   display: flex;
   flex-direction: column;
@@ -6,23 +7,23 @@
   width: 100%;
 }
 
-/* Toggle button – main accent */
+/* === Toggle Button === */
 .toggleButton {
-  background: var(--color-accent-bg);
-  border: none;
-  color: var(--color-accent);
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0.75rem 1rem;
-  border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
   width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--color-accent-bg);
+  color: var(--color-accent);
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease,
     box-shadow 0.3s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 }
 
 .toggleButton:hover {
@@ -37,7 +38,7 @@
   outline-offset: 2px;
 }
 
-/* Arrow rotation */
+/* === Arrow Icon === */
 .arrowIcon {
   display: inline-block;
   transition: transform 0.3s ease;
@@ -47,15 +48,15 @@
   transform: rotate(180deg);
 }
 
-/* Smooth quote reveal */
+/* === Quote Content === */
 .quoteContent {
-  overflow: hidden;
-  transition: max-height 0.5s ease, opacity 0.5s ease;
-  max-height: 0;
-  opacity: 0;
   display: flex;
   gap: 0.5rem;
   padding: 0 1rem 1rem;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.5s ease, opacity 0.5s ease;
 }
 
 .open {
@@ -63,25 +64,25 @@
   opacity: 1;
 }
 
-/* Quote text */
+/* === Quote Text === */
 .quoteText {
   font-size: 1rem;
-  color: var(--color-text);
   font-style: italic;
+  color: var(--color-text);
   margin: 0;
 }
 
-/* Refresh button */
+/* === Refresh Button === */
 .refreshButton {
-  align-self: flex-start;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: var(--space-xs);
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  align-self: flex-start;
+  padding: var(--space-xs);
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
@@ -91,12 +92,13 @@
   color: var(--color-focus);
 }
 
+/* === Refresh Icon === */
 .refreshIcon {
   color: var(--color-muted);
   transition: transform 0.5s ease, color 0.3s ease;
 }
 
-/* Spinner animation */
+/* === Loading Spinner === */
 .loading .refreshIcon {
   animation: spin 1s linear infinite;
   color: var(--color-focus);
