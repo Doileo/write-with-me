@@ -1,5 +1,6 @@
 /* === CSS Variables (root design tokens) === */
 :root {
+  /* Colors */
   --color-bg: #f9f7fa;
   --color-surface: #ffffff;
   --color-border: #e1d9e4;
@@ -14,15 +15,17 @@
   --color-focus-ring: rgba(155, 111, 161, 0.25);
   --color-delete: #d36d7a;
 
+  /* Typography */
   --font-family-base: "Inter", system-ui, sans-serif;
   --font-family-serif: "Georgia", "Times New Roman", serif;
-
   --font-size-base: 16px;
   --line-height-base: 1.6;
 
+  /* Border Radius */
   --radius-sm: 6px;
   --radius-md: 12px;
 
+  /* Spacing */
   --space-xs: 0.5rem;
   --space-sm: 1rem;
   --space-md: 1.5rem;
@@ -30,21 +33,21 @@
   --space-xl: 3rem;
 }
 
-/* ✅ Dark mode variables (placed OUTSIDE of :root!) */
+/* === Dark Mode Variables === */
 html[data-theme="dark"] {
-  --color-bg: #1a121d; /* deep background */
-  --color-surface: #241628; /* lifted panels */
-  --color-border: #3a2b3f; /* softer border */
-  --color-text: #f5edf7; /* main text */
-  --color-muted: #b8a9c0; /* secondary text */
-  --color-muted-bg: #33283a; /* subtle hovers / muted backgrounds */
+  --color-bg: #1a121d;
+  --color-surface: #241628;
+  --color-border: #3a2b3f;
+  --color-text: #f5edf7;
+  --color-muted: #b8a9c0;
+  --color-muted-bg: #33283a;
 
-  --color-primary: #bb86fc; /* vivid CTA */
-  --color-accent: #d5a3d5; /* lavender highlight */
-  --color-accent-soft: #ac89b4; /* soft lilac */
-  --color-focus: #e4b2f1; /* bright focus */
+  --color-primary: #bb86fc;
+  --color-accent: #d5a3d5;
+  --color-accent-soft: #ac89b4;
+  --color-focus: #e4b2f1;
   --color-focus-ring: rgba(228, 178, 241, 0.35);
-  --color-delete: #e38b96; /* error */
+  --color-delete: #e38b96;
 }
 
 /* === Reset & Box Model === */
@@ -72,8 +75,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Button styles */
-/* === Wrapper for icons + toggle === */
+/* === Theme Toggle === */
 .theme-toggle-wrapper {
   position: absolute;
   top: 0.5rem;
@@ -84,7 +86,6 @@ body {
   padding-top: 0.5rem;
 }
 
-/* === Toggle track === */
 .theme-toggle {
   width: 70px;
   height: 34px;
@@ -101,7 +102,6 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
-/* === Knob (from your provided styles) === */
 .theme-toggle .toggle-slider {
   position: absolute;
   top: 3px;
@@ -133,18 +133,18 @@ body {
     inset -2px -2px 4px rgba(0, 0, 0, 0.25), 0 0 8px rgba(167, 139, 250, 0.5);
 }
 
-/* === Icons (outside) === */
+/* === Icons === */
 .icon {
   opacity: 0.5;
   transition: opacity 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
 .icon.sun {
-  color: #fbbf24; /* warm yellow */
+  color: #fbbf24;
 }
 
 .icon.moon {
-  color: #a78bfa; /* lavender */
+  color: #a78bfa;
 }
 
 .icon.active {
@@ -164,7 +164,7 @@ body {
   border: 0;
 }
 
-/* === Layout Container === */
+/* === Layout Containers === */
 .container {
   width: 100%;
   max-width: 720px;
@@ -173,7 +173,7 @@ body {
   box-sizing: border-box;
 }
 
-/* === Textarea Placeholder Block (optional demo) === */
+/* === Editor Block (optional demo) === */
 .editor {
   width: 100%;
   max-width: 680px;
