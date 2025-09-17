@@ -481,8 +481,24 @@ html[data-theme="dark"] .writing-screen__suggestion-reject:hover {
 
   .writing-screen__actions {
     flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+    max-width: 100%;
+  }
+
+  .writing-screen__suggest-button,
+  .save-button,
+  .export-button {
+    width: auto;
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 1400px) {
+  .writing-screen__suggest-button,
+  .save-button,
+  .export-button {
+    padding: 1rem 2.5rem;
   }
 }
 
