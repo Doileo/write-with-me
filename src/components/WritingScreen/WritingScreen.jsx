@@ -1,45 +1,47 @@
 import React, { useState, useEffect } from "react";
-import styles from "./WritingScreen.module.css";
+import Editor from "./Editor";
+import StatsCounter from "./StatsCounter";
+import StreakCounter from "./StreakCounter";
 import SavedStories from "../SavedStories/SavedStories";
-import ThinkingDots from "./ThinkingDots";
-import QuoteOfTheDay from "./QuoteOfTheDay";
-import Toast from "./Toast";
+import ThinkingDots from "../ThinkingDots/ThinkingDots";
+import QuoteOfTheDay from "../QuoteOfTheDay/QuoteOfTheDay";
+import Toast from "../Toast/Toast";
 import { getAISuggestion } from "../../api/openai";
 import { Sparkles, CheckCircle, XCircle, Save, Download } from "lucide-react";
+import styles from "./WritingScreen.module.css";
+import useDraft from "../../hooks/useDraft";
 
-const DRAFT_STORAGE_KEY = "writeWithMe-draft";
+// Key used to store saved stories in localStorage
 const STORIES_STORAGE_KEY = "writeWithMe-stories";
-const SHOWN_UP_DAYS_KEY = "writeWithMe-shown-up-days";
 
 const WritingScreen = () => {
-  const [text, setText] = useState("");
-  const [isSaved, setIsSaved] = useState(false);
-  const [stories, setStories] = useState([]);
-  const [suggestion, setSuggestion] = useState("");
-  const [loadingSuggestion, setLoadingSuggestion] = useState(false);
-  const [error, setError] = useState(null);
-  const [toastMessage, setToastMessage] = useState("");
-  const [charCount, setCharCount] = useState(0);
-  const [wordCount, setWordCount] = useState(0);
-  const [readingTime, setReadingTime] = useState(0);
-  const [daysShownUp, setDaysShownUp] = useState(0);
-  const [currentStoryId, setCurrentStoryId] = useState(null);
-  const [sparkleTrigger, setSparkleTrigger] = useState(false);
+  // ------------------- Hook for draft, counts, and streak -------------------
+  const {
+    text, // Current text in editor
+    setText, // Function to update editor text
+    charCount, // Character count of the current text
+    wordCount, // Word count
+    readingTime, // Estimated reading time in minutes
+    daysShownUp, // Number of days user has written
+    isSaved, // Flag for showing draft auto-saved status
+  } = useDraft();
 
-  // Load initial data
+  // ------------------- Local state for component -------------------
+  const [stories, setStories] = useState([]); // All saved stories
+  const [suggestion, setSuggestion] = useState(""); // AI suggestion text
+  const [loadingSuggestion, setLoadingSuggestion] = useState(false); // Loading spinner
+  const [error, setError] = useState(null); // Error message for AI suggestion
+  const [toastMessage, setToastMessage] = useState(""); // Toast notifications
+  const [currentStoryId, setCurrentStoryId] = useState(null); // If editing existing story
+  const [sparkleTrigger, setSparkleTrigger] = useState(false); // Sparkle animation for streak
+
+  // ------------------- Load saved stories from localStorage -------------------
   useEffect(() => {
-    const savedText = localStorage.getItem(DRAFT_STORAGE_KEY);
-    if (savedText) setText(savedText);
-
     const savedStories = localStorage.getItem(STORIES_STORAGE_KEY);
     if (savedStories) setStories(JSON.parse(savedStories));
-
-    const storedDays =
-      JSON.parse(localStorage.getItem(SHOWN_UP_DAYS_KEY)) || [];
-    setDaysShownUp(storedDays.length);
   }, []);
 
-  // Track day count increment for sparkle animation
+  // ------------------- Trigger sparkle animation when streak increases -------------------
   useEffect(() => {
     if (daysShownUp > 0) {
       setSparkleTrigger(true);
@@ -48,54 +50,27 @@ const WritingScreen = () => {
     }
   }, [daysShownUp]);
 
-  // Auto-save, counts, and day streak
-  useEffect(() => {
-    const saveDraftTimeout = setTimeout(() => {
-      localStorage.setItem(DRAFT_STORAGE_KEY, text);
-      setIsSaved(true);
+  // ------------------- Story actions -------------------
 
-      const clearStatusTimeout = setTimeout(() => setIsSaved(false), 2000);
-      return () => clearTimeout(clearStatusTimeout);
-    }, 500);
-
-    // update counts
-    const words = text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
-    setWordCount(words);
-    setCharCount(text.length);
-    setReadingTime(Math.max(1, Math.ceil(words / 200))); // at least 1 min if > 0 words
-
-    // handle days shown up
-    if (text.trim().length > 0) {
-      const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-      const storedDays =
-        JSON.parse(localStorage.getItem(SHOWN_UP_DAYS_KEY)) || [];
-
-      if (!storedDays.includes(today)) {
-        const updatedDays = [...storedDays, today];
-        localStorage.setItem(SHOWN_UP_DAYS_KEY, JSON.stringify(updatedDays));
-        setDaysShownUp(updatedDays.length); // triggers sparkle animation
-      }
-    }
-
-    return () => clearTimeout(saveDraftTimeout);
-  }, [text]);
-
+  // Save or update a story
   const saveStory = () => {
     if (!text.trim()) {
       setToastMessage("❗ Please write something before saving.");
       return;
     }
 
+    // Ask for story title
     const title = window.prompt(
       "Enter a title for your story:",
       "Untitled Story"
     );
-    if (title === null) return;
+    if (title === null) return; // Cancel pressed
 
     const updatedStories = [...stories];
     const dateSaved = new Date().toISOString();
 
     if (currentStoryId) {
+      // Update existing story
       const index = updatedStories.findIndex((s) => s.id === currentStoryId);
       if (index !== -1) {
         updatedStories[index] = {
@@ -109,6 +84,7 @@ const WritingScreen = () => {
         );
       }
     } else {
+      // Create new story
       const newStory = {
         id: Date.now().toString(),
         title: title.trim() || "Untitled Story",
@@ -119,13 +95,17 @@ const WritingScreen = () => {
       setToastMessage(`✅ "${newStory.title}" saved successfully!`);
     }
 
+    // Save stories to state and localStorage
     setStories(updatedStories);
     localStorage.setItem(STORIES_STORAGE_KEY, JSON.stringify(updatedStories));
+
+    // Reset editor
     setText("");
     setCurrentStoryId(null);
-    localStorage.removeItem(DRAFT_STORAGE_KEY);
+    localStorage.removeItem("writeWithMe-draft");
   };
 
+  // Ask AI for a suggestion based on current text
   const handleSuggestClick = async () => {
     if (!text.trim()) {
       setError("Please write something before asking for a suggestion.");
@@ -144,48 +124,52 @@ const WritingScreen = () => {
     }
   };
 
+  // Accept AI suggestion and append it to the text
   const acceptSuggestion = () => {
     setText((prev) => prev + (prev.endsWith(" ") ? "" : " ") + suggestion);
     setSuggestion("");
   };
 
+  // Reject AI suggestion
   const rejectSuggestion = () => {
     setSuggestion("");
   };
 
+  // Load a saved story into the editor
   const handleSelectStory = (story) => {
     setText(story.content);
     setCurrentStoryId(story.id);
   };
 
+  // Delete a story from saved stories
   const handleDeleteStory = (id) => {
     const storyToDelete = stories.find((s) => s.id === id);
     const filteredStories = stories.filter((s) => s.id !== id);
     setStories(filteredStories);
     localStorage.setItem(STORIES_STORAGE_KEY, JSON.stringify(filteredStories));
 
+    // Clear editor if deleted story is currently open
     if (storyToDelete && storyToDelete.content === text) {
       setText("");
       setCurrentStoryId(null);
-      localStorage.removeItem(DRAFT_STORAGE_KEY);
+      localStorage.removeItem("writeWithMe-draft");
     }
   };
 
+  // Helper: Download text file
   const downloadFile = (filename, content) => {
     const blob = new Blob([content], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
-
     link.href = url;
     link.download = filename;
-
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-
     URL.revokeObjectURL(url);
   };
 
+  // Export current text as .txt
   const exportTxt = () => {
     if (!text.trim()) {
       setToastMessage("❗ Nothing to export.");
@@ -194,10 +178,12 @@ const WritingScreen = () => {
     downloadFile("story.txt", text);
   };
 
+  // ------------------- Render -------------------
   return (
     <section className={styles["writing-screen"]}>
       <div className={styles["writing-screen__container"]}>
         <div className={styles["writing-screen__left"]}>
+          {/* Header & Quote */}
           <div className={styles["writing-screen__intro"]}>
             <h1 className={styles["writing-screen__heading"]}>Write With Me</h1>
             <p className={styles["writing-screen__subtext"]}>
@@ -206,53 +192,30 @@ const WritingScreen = () => {
             <QuoteOfTheDay />
           </div>
 
-          <div className={styles["writing-screen__editor"]}>
-            <div className={styles["editor-container"]}>
-              <div
-                className={`${styles["editor-placeholder"]} ${
-                  text.trim() === "" ? styles.visible : styles.hidden
-                }`}
-                aria-hidden="true"
-              >
-                Write the first line of your story, reflection, or idea…
-              </div>
+          {/* Editor */}
+          <Editor
+            text={text}
+            setText={setText}
+            currentStoryId={currentStoryId}
+            onCancelEdit={() => {
+              setText("");
+              setCurrentStoryId(null);
+              localStorage.removeItem("writeWithMe-draft");
+            }}
+          />
 
-              <textarea
-                className={styles["editor__textarea"]}
-                aria-label="Writing editor"
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-              />
-            </div>
+          {/* Stats & Streak */}
+          <StatsCounter
+            wordCount={wordCount}
+            charCount={charCount}
+            readingTime={readingTime}
+          />
+          <StreakCounter
+            daysShownUp={daysShownUp}
+            sparkleTrigger={sparkleTrigger}
+          />
 
-            {currentStoryId && (
-              <button
-                className={styles["cancel-edit-button"]}
-                onClick={() => {
-                  setText("");
-                  setCurrentStoryId(null);
-                  localStorage.removeItem(DRAFT_STORAGE_KEY);
-                }}
-                aria-label="Cancel editing current story"
-              >
-                Cancel Edit
-              </button>
-            )}
-          </div>
-
-          <div className={styles["writing-screen__counter"]}>
-            <span>{wordCount} words</span> · <span>{charCount} characters</span>{" "}
-            · <span>{readingTime} min read</span>
-          </div>
-
-          <div className={styles["writing-screen__streak"]}>
-            <Sparkles
-              size={18}
-              className={sparkleTrigger ? styles["sparkle-animate"] : ""}
-            />
-            Days you’ve shown up: {daysShownUp}
-          </div>
-
+          {/* Action Buttons: Suggest, Save, Download */}
           <div className={styles["writing-screen__actions"]}>
             <button
               className={styles["writing-screen__suggest-button"]}
@@ -291,12 +254,14 @@ const WritingScreen = () => {
             </button>
           </div>
 
+          {/* Error message */}
           {error && (
             <p className={styles["writing-screen__error"]} role="alert">
               {error}
             </p>
           )}
 
+          {/* AI suggestion box */}
           {suggestion && (
             <div className={styles["writing-screen__suggestion-box"]}>
               <p className={styles["writing-screen__suggestion-label"]}>
@@ -334,6 +299,7 @@ const WritingScreen = () => {
             </div>
           )}
 
+          {/* Draft saved indicator */}
           {isSaved && (
             <div
               className={styles["writing-screen__status"]}
@@ -345,6 +311,7 @@ const WritingScreen = () => {
           )}
         </div>
 
+        {/* Sidebar with saved stories */}
         <SavedStories
           stories={stories}
           onSelect={handleSelectStory}
@@ -352,6 +319,7 @@ const WritingScreen = () => {
         />
       </div>
 
+      {/* Toast notifications */}
       {toastMessage && (
         <Toast message={toastMessage} onClose={() => setToastMessage("")} />
       )}
