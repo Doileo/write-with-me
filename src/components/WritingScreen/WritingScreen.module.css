@@ -249,6 +249,16 @@
   color: violet;
 }
 
+/* === Motion reduction === */
+@media (prefers-reduced-motion: reduce) {
+  .sparkle-animate,
+  .editor-placeholder,
+  .writing-screen__status {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
 /* === Button Groups === */
 .writing-screen__button-group,
 .writing-screen__actions {
