@@ -39,7 +39,7 @@ html[data-theme="dark"] {
   --color-surface: #241628;
   --color-border: #3a2b3f;
   --color-text: #f5edf7;
-  --color-muted: #b8a9c0;
+  --color-muted: #c4b3cd;
   --color-muted-bg: #33283a;
 
   --color-primary: #bb86fc;
@@ -97,6 +97,11 @@ body {
   transition: background 0.3s ease, border 0.3s ease;
 }
 
+.theme-toggle:focus {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
 .theme-toggle.dark {
   background: rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -133,9 +138,16 @@ body {
     inset -2px -2px 4px rgba(0, 0, 0, 0.25), 0 0 8px rgba(167, 139, 250, 0.5);
 }
 
+/* Reduced motion support for users who prefer less animation */
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle .toggle-slider {
+    transition: none;
+  }
+}
+
 /* === Icons === */
 .icon {
-  opacity: 0.5;
+  opacity: 0.7;
   transition: opacity 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
@@ -173,7 +185,7 @@ body {
   box-sizing: border-box;
 }
 
-/* === Editor Block (optional demo) === */
+/* === Editor Block === */
 .editor {
   width: 100%;
   max-width: 680px;
