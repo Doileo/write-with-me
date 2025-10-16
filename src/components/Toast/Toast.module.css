@@ -10,24 +10,66 @@
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
   font-size: 0.95rem;
   z-index: 9999;
+
+  /* consistent fade-in-out to feel natural rather than abrupt */
   animation: fadeInOut 3s ease-in-out;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, 1.5rem);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
+/* ensuring visible focus for keyboard users */
+.toast:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
+/* visual consistency across variants — helps users instantly identify feedback type */
 .toast--success {
   border-left: 4px solid var(--color-primary);
 }
 
 .toast--error {
   border-left: 4px solid var(--color-delete);
+}
+
+.toast--info {
+  border-left: 4px solid var(--color-info, var(--color-primary));
+}
+
+/* simple, clean close button — not visually dominant, but always accessible */
+.closeButton {
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 1.25rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.closeButton:hover,
+.closeButton:focus {
+  opacity: 0.7;
+}
+
+/* matching animation name to ensure motion works */
+@keyframes fadeInOut {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 1.5rem);
+  }
+  10%,
+  90% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* motion safety — respects user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    animation: none;
+  }
 }
