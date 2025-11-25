@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Editor from "./Editor";
 import StatsCounter from "./StatsCounter";
 import StreakCounter from "./StreakCounter";
@@ -25,9 +25,6 @@ const WritingScreen = () => {
     daysShownUp, // Number of days user has written
     isSaved, // Flag for showing draft auto-saved status
   } = useDraft();
-
-  // ref to control the textarea in <Editor />
-  const editorRef = useRef(null);
 
   // ------------------- Local state for component -------------------
   const [stories, setStories] = useState([]); // All saved stories
@@ -197,7 +194,6 @@ const WritingScreen = () => {
 
           {/* Editor */}
           <Editor
-            ref={editorRef}
             text={text}
             setText={setText}
             currentStoryId={currentStoryId}
