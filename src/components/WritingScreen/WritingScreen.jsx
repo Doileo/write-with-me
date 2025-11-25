@@ -179,6 +179,8 @@ const WritingScreen = () => {
   };
 
   // ------------------- Render -------------------
+  const isEmpty = !text.trim();
+
   return (
     <section className={styles["writing-screen"]}>
       <div className={styles["writing-screen__container"]}>
@@ -221,7 +223,7 @@ const WritingScreen = () => {
               className={styles["writing-screen__suggest-button"]}
               type="button"
               onClick={handleSuggestClick}
-              disabled={loadingSuggestion || !text.trim()}
+              disabled={loadingSuggestion || isEmpty}
               aria-busy={loadingSuggestion}
               aria-label="Ask AI for next sentence suggestion"
             >
@@ -233,6 +235,7 @@ const WritingScreen = () => {
               className={styles["save-button"]}
               type="button"
               onClick={saveStory}
+              disabled={isEmpty}
               aria-label="Save your story"
             >
               <Save
@@ -247,12 +250,20 @@ const WritingScreen = () => {
               className={styles["export-button"]}
               type="button"
               onClick={exportTxt}
+              disabled={isEmpty}
               aria-label="Download your story as a text file"
             >
               <Download size={18} aria-hidden="true" />
               Download
             </button>
           </div>
+
+          {/* Helper text when empty */}
+          {isEmpty && (
+            <p className={styles["writing-screen__actions-helper"]}>
+              Start writing to enable suggestions, saving, and download.
+            </p>
+          )}
 
           {/* Error message */}
           {error && (

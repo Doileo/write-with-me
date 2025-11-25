@@ -180,6 +180,12 @@
   align-self: flex-end;
 }
 
+.writing-screen__actions-helper {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  margin-top: 0.35rem;
+}
+
 /* === Status Message === */
 .writing-screen__status {
   text-align: center;
@@ -363,6 +369,16 @@
 .export-button:active {
   box-shadow: 0 4px 8px rgba(107, 62, 117, 0.25);
   transform: translateY(0);
+}
+
+/* === Disabled States for Action Buttons === */
+.writing-screen__suggest-button:disabled,
+.save-button:disabled,
+.export-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 /* === Suggestion Box === */
