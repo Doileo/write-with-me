@@ -4,7 +4,6 @@ import StatsCounter from "./StatsCounter";
 import StreakCounter from "./StreakCounter";
 import SavedStories from "../SavedStories/SavedStories";
 import ThinkingDots from "../ThinkingDots/ThinkingDots";
-import QuoteOfTheDay from "../QuoteOfTheDay/QuoteOfTheDay";
 import Toast from "../Toast/Toast";
 import { getAISuggestion } from "../../api/openai";
 import { Sparkles, CheckCircle, XCircle, Save, Download } from "lucide-react";
@@ -191,7 +190,6 @@ const WritingScreen = () => {
             <p className={styles["writing-screen__subtext"]}>
               A focused space for your thoughts, stories, and reflections.
             </p>
-            <QuoteOfTheDay />
           </div>
 
           {/* Editor */}
