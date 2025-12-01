@@ -188,7 +188,7 @@ const WritingScreen = () => {
           <div className={styles["writing-screen__intro"]}>
             <h1 className={styles["writing-screen__heading"]}>Write With Me</h1>
             <p className={styles["writing-screen__subtext"]}>
-              A focused space for your thoughts, stories, and reflections.
+              Your thoughts have a home here. Write at your own rhythm.
             </p>
           </div>
 

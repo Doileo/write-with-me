@@ -23,7 +23,7 @@ const Editor = forwardRef(
           {/* Step 2a: Visually hidden label for screen readers */}
           {/* Ensures accessibility for assistive tech without showing duplicate text visually */}
           <label htmlFor="story-editor" className={styles["visually-hidden"]}>
-            Write the first line of your story, reflection, or idea
+            Begin anywhere. Let your words arrive naturally.
           </label>
 
           {/* Step 2b: Decorative placeholder */}
@@ -34,7 +34,7 @@ const Editor = forwardRef(
             }`}
             aria-hidden="true"
           >
-            Write the first line of your story, reflection, or idea…
+            Begin anywhere. Let your words arrive naturally.
           </div>
 
           {/* Step 2c: Controlled textarea */}

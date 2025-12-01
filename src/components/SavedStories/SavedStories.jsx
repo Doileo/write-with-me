@@ -7,7 +7,7 @@ const SavedStories = ({ stories, onSelect, onDelete }) => {
     return (
       <section className={styles["saved-stories"]}>
         <p className={styles["saved-stories__empty"]}>
-          No saved stories yet. Start writing and save to see them here!
+          Your future stories will live here. Begin your first one.
         </p>
       </section>
     );
