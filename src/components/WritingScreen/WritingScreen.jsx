@@ -34,6 +34,9 @@ const WritingScreen = () => {
   const [currentStoryId, setCurrentStoryId] = useState(null); // If editing existing story
   const [sparkleTrigger, setSparkleTrigger] = useState(false); // Sparkle animation for streak
 
+  // 🌿 Micro-success: track if we've already encouraged the user this session
+  const [hasShownFirstWrite, setHasShownFirstWrite] = useState(false);
+
   // ------------------- Load saved stories from localStorage -------------------
   useEffect(() => {
     const savedStories = localStorage.getItem(STORIES_STORAGE_KEY);
@@ -48,6 +51,17 @@ const WritingScreen = () => {
       return () => clearTimeout(timer);
     }
   }, [daysShownUp]);
+
+  // ------------------- Micro-success: gentle encouragement after first meaningful input -------------------
+  useEffect(() => {
+    const trimmed = text.trim();
+    const hasMeaningfulText = trimmed.length > 8; // avoid triggering on a single word
+
+    if (!hasShownFirstWrite && hasMeaningfulText) {
+      setHasShownFirstWrite(true);
+      setToastMessage("Beautiful start. Keep going!");
+    }
+  }, [text, hasShownFirstWrite]);
 
   // ------------------- Story actions -------------------
 
@@ -184,7 +198,7 @@ const WritingScreen = () => {
     <section className={styles["writing-screen"]}>
       <div className={styles["writing-screen__container"]}>
         <div className={styles["writing-screen__left"]}>
-          {/* Header & Quote */}
+          {/* Header */}
           <div className={styles["writing-screen__intro"]}>
             <h1 className={styles["writing-screen__heading"]}>Write With Me</h1>
             <p className={styles["writing-screen__subtext"]}>
