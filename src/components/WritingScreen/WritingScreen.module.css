@@ -260,6 +260,30 @@
   margin-top: 1rem;
 }
 
+/* Ultra-smooth reveal for the action buttons */
+.writing-screen__actions {
+  opacity: 0;
+  animation: fadeInSoft 0.6s ease-out 0.25s forwards;
+}
+
+@keyframes fadeInSoft {
+  0% {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(4px);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(3px);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0px);
+  }
+}
+
 /* === Suggestion Button === */
 .writing-screen__suggest-button {
   display: inline-flex;
