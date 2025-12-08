@@ -230,45 +230,45 @@ const WritingScreen = () => {
           />
 
           {/* Action Buttons: Suggest, Save, Download */}
-          <div className={styles["writing-screen__actions"]}>
-            <button
-              className={styles["writing-screen__suggest-button"]}
-              type="button"
-              onClick={handleSuggestClick}
-              disabled={loadingSuggestion || isEmpty}
-              aria-busy={loadingSuggestion}
-              aria-label="Ask AI for next sentence suggestion"
-            >
-              <Sparkles className={styles["suggest-icon"]} size={18} />
-              {loadingSuggestion ? <ThinkingDots /> : "Suggest next sentence"}
-            </button>
+          {!isEmpty && (
+            <div className={styles["writing-screen__actions"]}>
+              <button
+                className={styles["writing-screen__suggest-button"]}
+                type="button"
+                onClick={handleSuggestClick}
+                disabled={loadingSuggestion}
+                aria-busy={loadingSuggestion}
+                aria-label="Ask AI for next sentence suggestion"
+              >
+                <Sparkles className={styles["suggest-icon"]} size={18} />
+                {loadingSuggestion ? <ThinkingDots /> : "Suggest next sentence"}
+              </button>
 
-            <button
-              className={styles["save-button"]}
-              type="button"
-              onClick={saveStory}
-              disabled={isEmpty}
-              aria-label="Save your story"
-            >
-              <Save
-                className={styles["save-icon"]}
-                size={18}
-                aria-hidden="true"
-              />
-              {currentStoryId ? "Update Story" : "Save Story"}
-            </button>
+              <button
+                className={styles["save-button"]}
+                type="button"
+                onClick={saveStory}
+                aria-label="Save your story"
+              >
+                <Save
+                  className={styles["save-icon"]}
+                  size={18}
+                  aria-hidden="true"
+                />
+                {currentStoryId ? "Update Story" : "Save Story"}
+              </button>
 
-            <button
-              className={styles["export-button"]}
-              type="button"
-              onClick={exportTxt}
-              disabled={isEmpty}
-              aria-label="Download your story as a text file"
-            >
-              <Download size={18} aria-hidden="true" />
-              Download
-            </button>
-          </div>
+              <button
+                className={styles["export-button"]}
+                type="button"
+                onClick={exportTxt}
+                aria-label="Download your story as a text file"
+              >
+                <Download size={18} aria-hidden="true" />
+                Download
+              </button>
+            </div>
+          )}
 
           {/* Helper text when empty */}
           {isEmpty && (
