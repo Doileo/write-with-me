@@ -384,17 +384,6 @@
   transform: translateY(0);
 }
 
-/* === Disabled States for Action Buttons === */
-.writing-screen__suggest-button:disabled,
-.save-button:disabled,
-.export-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  pointer-events: none;
-  transform: none;
-  box-shadow: none;
-}
-
 /* === Suggestion Box === */
 .writing-screen__suggestion-box {
   background-color: var(--color-surface);
