@@ -73,16 +73,18 @@
   position: absolute;
   top: 12px;
   left: 12px;
+  right: 12px;
   font-family: var(--font-family-serif);
   font-size: 1.1rem;
-  font-style: italic;
+  font-style: normal;
   color: var(--color-muted);
   pointer-events: none;
   user-select: none;
   transition: opacity 1.2s ease-out, transform 1.2s ease-out;
-  white-space: nowrap;
-  overflow: hidden;
-  max-width: calc(100% - 24px);
+
+  white-space: normal;
+  overflow: visible;
+  word-break: break-word;
   line-height: 1.75;
 }
 
