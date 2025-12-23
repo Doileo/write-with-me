@@ -162,19 +162,29 @@
 
 /* === Live Character & Word Counter === */
 .writing-screen__counter {
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   color: var(--color-muted);
   text-align: right;
-  margin: 0.25rem 0 0.5rem;
-  padding-right: var(--space-xs);
   max-width: 70ch;
   align-self: flex-end;
+
+  /* Progressive disclosure */
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
-.writing-screen__actions-helper {
-  font-size: 0.9rem;
-  color: var(--color-muted);
-  margin-top: 0.35rem;
+/* Revealed when writing becomes meaningful */
+.counter--visible {
+  opacity: 0.75;
+  transform: translateY(0);
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Hidden when empty */
+.counter--hidden {
+  pointer-events: none;
 }
 
 /* === Status Message === */

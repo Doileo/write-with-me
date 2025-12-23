@@ -25,6 +25,8 @@ const WritingScreen = () => {
     isSaved, // Flag for showing draft auto-saved status
   } = useDraft();
 
+  const hasMeaningfulText = text.trim().length > 8;
+
   // ------------------- Local state for component -------------------
   const [stories, setStories] = useState([]); // All saved stories
   const [suggestion, setSuggestion] = useState(""); // AI suggestion text
@@ -223,6 +225,7 @@ const WritingScreen = () => {
             wordCount={wordCount}
             charCount={charCount}
             readingTime={readingTime}
+            visible={hasMeaningfulText}
           />
           <StreakCounter
             daysShownUp={daysShownUp}
