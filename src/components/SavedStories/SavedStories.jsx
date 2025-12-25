@@ -36,6 +36,7 @@ const SavedStories = ({ stories, onSelect, onDelete }) => {
                   <h3 className={styles["saved-stories__title"]}>
                     {story.title}
                   </h3>
+
                   <p className={styles["saved-stories__snippet"]}>
                     {firstLine}
                   </p>
