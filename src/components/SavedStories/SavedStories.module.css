@@ -134,7 +134,6 @@
 }
 
 /* Delete — intentionally quiet */
-
 .saved-stories__delete {
   margin-left: auto;
   display: inline-flex;
@@ -164,7 +163,6 @@
 }
 
 /* Icons */
-
 .saved-stories__edit svg,
 .saved-stories__delete svg {
   width: 16px;
@@ -172,7 +170,6 @@
 }
 
 /* Sticky positioning for large screens */
-
 @media screen and (min-width: 1024px) {
   .saved-stories {
     position: sticky;

@@ -398,62 +398,100 @@
 
 /* === Suggestion Box === */
 .writing-screen__suggestion-box {
-  background-color: var(--color-surface);
-  border-left: 4px solid var(--color-primary);
+  background: linear-gradient(
+    to right,
+    rgba(155, 93, 229, 0.04),
+    var(--color-surface)
+  );
+  border-left: 3px solid var(--color-primary);
   padding: 1rem;
   border-radius: var(--radius-md);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
   position: relative;
 }
 
+/* Text */
 .writing-screen__suggestion-text {
   font-size: 1rem;
   margin-bottom: 0.75rem;
   color: var(--color-text);
 }
 
+/* Action row */
 .writing-screen__suggestion-actions {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
 }
 
+/* Base button */
 .writing-screen__suggestion-accept,
 .writing-screen__suggestion-reject {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
   font-size: 0.95rem;
-  padding: 0.4rem 0.9rem;
-  background-color: transparent;
-  border: 1px solid var(--color-border);
-  color: var(--color-text);
+  padding: 0.5rem 1rem;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease;
-  position: relative;
+  border: 1px solid transparent;
+  background: transparent;
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+    transform 0.2s ease, color 0.2s ease;
 }
 
-.writing-screen__suggestion-accept:hover,
+/* ACCEPT — supportive, not pushy */
+.writing-screen__suggestion-accept {
+  background-color: rgba(155, 93, 229, 0.1);
+  border-color: rgba(155, 93, 229, 0.3);
+  color: var(--color-primary);
+}
+
+.writing-screen__suggestion-accept:hover {
+  background-color: rgba(155, 93, 229, 0.18);
+  transform: translateY(-1px);
+}
+
+/* REJECT — neutral, visible, calm */
+.writing-screen__suggestion-reject {
+  border-color: var(--color-border);
+  color: var(--color-muted);
+}
+
 .writing-screen__suggestion-reject:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.04);
+  color: var(--color-text);
 }
 
+/* Icons */
+.suggestion-icon {
+  transition: transform 0.2s ease, filter 0.2s ease, color 0.2s ease;
+}
+
+/* ACCEPT icon — gently moves forward */
 .writing-screen__suggestion-accept:hover .suggestion-icon {
-  color: var(--color-focus);
-  transform: scale(1.2);
-  box-shadow: 0 0 8px var(--color-focus-ring);
+  transform: scale(1.2) translateX(2px);
+  filter: drop-shadow(0 0 6px rgba(155, 93, 229, 0.5));
 }
 
+/* REJECT icon — gently pulls away */
 .writing-screen__suggestion-reject:hover .suggestion-icon {
-  color: var(--color-delete);
-  transform: scale(1.2) rotate(-5deg);
-  box-shadow: 0 0 8px rgba(211, 109, 122, 0.25);
+  transform: scale(1.15) rotate(-8deg);
+  filter: drop-shadow(0 0 6px rgba(211, 109, 122, 0.4));
 }
 
-html[data-theme="dark"] .writing-screen__suggestion-accept:hover,
+/* Dark mode fixes */
+html[data-theme="dark"] .writing-screen__suggestion-reject {
+  border-color: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.65);
+}
+
 html[data-theme="dark"] .writing-screen__suggestion-reject:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+html[data-theme="dark"] .writing-screen__suggestion-accept:hover {
   color: #fff;
 }
 
