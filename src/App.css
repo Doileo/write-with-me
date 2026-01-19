@@ -1,4 +1,9 @@
+/* ======================================================
+   1. DESIGN TOKENS (Global variables)
+   ====================================================== */
+
 :root {
+  /* --- Colors: Base --- */
   --color-bg: #f9f7fa;
   --color-surface: #ffffff;
   --color-border: #e1d9e4;
@@ -6,6 +11,7 @@
   --color-muted: #4a3e52;
   --color-muted-bg: #f3eefc;
 
+  /* --- Colors: Brand & Actions --- */
   --color-primary: #6b3e75;
   --color-accent: #a576a6;
   --color-accent-soft: #c7b6cc;
@@ -13,14 +19,17 @@
   --color-focus-ring: rgba(155, 111, 161, 0.5);
   --color-delete: #d36d7a;
 
+  /* --- Typography --- */
   --font-family-base: "Inter", system-ui, sans-serif;
   --font-family-serif: "Georgia", "Times New Roman", serif;
   --font-size-base: 16px;
   --line-height-base: 1.6;
 
+  /* --- Radius --- */
   --radius-sm: 6px;
   --radius-md: 12px;
 
+  /* --- Spacing --- */
   --space-xs: 0.5rem;
   --space-sm: 1rem;
   --space-md: 1.5rem;
@@ -28,7 +37,10 @@
   --space-xl: 3rem;
 }
 
-/* === Dark Mode Variables === */
+/* ======================================================
+     2. THEME OVERRIDES (Dark mode)
+     ====================================================== */
+
 html[data-theme="dark"] {
   --color-bg: #141018;
   --color-surface: #1f1a24;
@@ -36,7 +48,7 @@ html[data-theme="dark"] {
   --color-text: #eeeaf1;
   --color-muted: #b6afc0;
 
-  /* softer, calmer brand */
+  /* Brand (softer in dark) */
   --color-primary: #a78bfa;
   --color-accent: #c4a1d8;
   --color-accent-soft: #8f7aa8;
@@ -44,14 +56,17 @@ html[data-theme="dark"] {
   --color-focus-ring: rgba(210, 181, 255, 0.25);
   --color-delete: #e38b96;
 
-  /* NEW calm UI layer */
+  /* UI-specific surfaces */
   --color-ui-surface: #1a1620;
   --color-ui-border: #2b2433;
   --color-ui-hover: #2f2738;
   --color-ui-active: #3a3045;
 }
 
-/* === Reset & Box Model === */
+/* ======================================================
+     3. RESET & BASE
+     ====================================================== */
+
 *,
 *::before,
 *::after {
@@ -66,17 +81,49 @@ html {
 }
 
 body {
+  min-height: 100vh;
   font-family: var(--font-family-base);
   font-size: var(--font-size-base);
   line-height: var(--line-height-base);
   background-color: var(--color-bg);
   color: var(--color-text);
-  min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
-/* === Theme Toggle === */
+/* ======================================================
+     4. ACCESSIBILITY & USER PREFERENCES
+     ====================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle .toggle-slider {
+    transition: none !important;
+  }
+
+  .sparkle-animate,
+  .editor-placeholder {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ======================================================
+     5. LAYOUT PRIMITIVES
+     ====================================================== */
+
+.container {
+  width: 100%;
+  max-width: 720px;
+  margin-inline: auto;
+  padding-inline: var(--space-md);
+}
+
+/* ======================================================
+     6. COMPONENTS
+     ====================================================== */
+
+/* --- Theme Toggle --- */
+
 .theme-toggle-wrapper {
   position: absolute;
   top: 0.5rem;
@@ -88,12 +135,12 @@ body {
 }
 
 .theme-toggle {
+  position: relative;
   width: 70px;
   height: 34px;
   background: rgba(255, 255, 255, 0.6);
-  border-radius: 50px;
   border: 1px solid rgba(0, 0, 0, 0.1);
-  position: relative;
+  border-radius: 50px;
   cursor: pointer;
   transition: background 0.3s ease, border 0.3s ease;
 }
@@ -114,13 +161,13 @@ body {
   left: 3px;
   width: 28px;
   height: 28px;
+  border-radius: 50%;
   background: linear-gradient(
     145deg,
     var(--color-surface) 0%,
     var(--color-accent-soft) 100%
   );
   border: 1px solid var(--color-accent-soft);
-  border-radius: 50%;
   box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.5),
     inset -2px -2px 4px rgba(0, 0, 0, 0.05), 0 4px 12px rgba(0, 0, 0, 0.15);
   transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
@@ -139,19 +186,26 @@ body {
     inset -2px -2px 4px rgba(0, 0, 0, 0.25), 0 0 8px rgba(167, 139, 250, 0.5);
 }
 
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  .theme-toggle .toggle-slider {
-    transition: none !important;
-  }
-  .sparkle-animate,
-  .editor-placeholder {
-    animation: none !important;
-    transition: none !important;
-  }
+/* --- Editor --- */
+
+.editor {
+  width: 100%;
+  max-width: 680px;
+  padding: var(--space-md);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
-/* === Icons === */
+.editor__textarea:focus {
+  box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+/* ======================================================
+     7. ICONS
+     ====================================================== */
+
 .icon {
   opacity: 0.7;
   transition: opacity 0.3s ease, color 0.3s ease, transform 0.3s ease;
@@ -170,7 +224,10 @@ body {
   transform: scale(1.05);
 }
 
-/* === Utility Classes === */
+/* ======================================================
+     8. UTILITIES
+     ====================================================== */
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -180,28 +237,4 @@ body {
   overflow: hidden;
   clip: rect(0 0 0 0);
   border: 0;
-}
-
-/* === Layout Containers === */
-.container {
-  width: 100%;
-  max-width: 720px;
-  margin-inline: auto;
-  padding-inline: var(--space-md);
-  box-sizing: border-box;
-}
-
-/* === Editor Block === */
-.editor {
-  width: 100%;
-  max-width: 680px;
-  background-color: var(--color-surface);
-  border-radius: var(--radius-md);
-  padding: var(--space-md);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-  border: 1px solid var(--color-border);
-}
-
-.editor__textarea:focus {
-  box-shadow: 0 0 0 3px var(--color-focus-ring);
 }
